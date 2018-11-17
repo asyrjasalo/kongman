@@ -1,8 +1,13 @@
 # testing and linting
 mypy
+
 pytest
-pytest-cov
 pytest-aiohttp
+pytest-cov
+pytest-clarity
+pytest-instafail
+pytest-spec
+
 flake8
 twine
 agile-toolkit

@@ -17,7 +17,7 @@ pip install aio-kong
 To run tests, clone and
 ```
 ./dev/install.sh
-pytest --cov
+pytest --spec --instafail --diff-type=auto
 ```
 ## Client
 
