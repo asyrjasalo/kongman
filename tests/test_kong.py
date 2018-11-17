@@ -132,12 +132,16 @@ async def test_snis(cli):
         'snis': [
             {
                 'name': 'a1.example.com',
-                'ssl_certificate_id': c1['id'],
+                'certificate': {
+                    'id': c1['id']
+                }
             },
             {
                 'name': 'a2.example.com',
-                'ssl_certificate_id': c2['id'],
-            },
+                'certificate': {
+                    'id': c2['id']
+                }
+            }
         ]
     }
     resp = await cli.apply_json(config)
@@ -145,16 +149,18 @@ async def test_snis(cli):
 
     # CREATE
     for sni in snis:
+#        sni.pop('id', None)
         sni.pop('created_at')
     assert snis == config['snis']
 
     # UPDATE
-    config['snis'][0]['ssl_certificate_id'] = c2['id']
-    config['snis'][1]['ssl_certificate_id'] = c1['id']
+    config['snis'][0]['certificate']['id'] = c2['id']
+    config['snis'][1]['certificate']['id'] = c1['id']
     resp = await cli.apply_json(config)
     snis = resp['snis']
 
     for sni in snis:
+        sni.pop('id', None)
         sni.pop('created_at')
     assert snis == config['snis']
 
@@ -163,11 +169,11 @@ async def test_snis(cli):
     snis = await cli.snis.get_list()
     assert len(snis) == 2
     snis = {
-        sni.data['name']: sni.data['ssl_certificate_id']
+        sni.data['name']: sni.data['certificate']
         for sni in snis
     }
     expected = {
-        sni['name']: sni['ssl_certificate_id']
+        sni['name']: sni['certificate']
         for sni in config['snis']
     }
     assert snis == expected
