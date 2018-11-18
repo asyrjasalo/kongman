@@ -1,6 +1,3 @@
-# testing and linting
-mypy
-
 pytest
 pytest-aiohttp
 pytest-cov
@@ -8,6 +5,7 @@ pytest-clarity
 pytest-instafail
 pytest-spec
 
-flake8
-twine
 agile-toolkit
+flake8
+mypy
+twine

@@ -1,27 +1,11 @@
-# python
-__pycache__
 *.pyc
-*.pyd
-*.so
-*.o
-*.def
+__pycache__
+
 *.egg-info
+dist/
+build/
+
 .coverage
 .pytest_cache
 .mypy_cache
-venv
-build
-dist
-
-# files
-.env
-*.log
-.python-version
-
-# ides
-.vscode/.ropeproject
-.idea
-*.swp
-
-# Mac
-.DS_Store
+.venvs
