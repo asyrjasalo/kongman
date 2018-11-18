@@ -149,7 +149,7 @@ async def test_snis(cli):
 
     # CREATE
     for sni in snis:
-#        sni.pop('id', None)
+        sni.pop('id', None)
         sni.pop('created_at')
     assert snis == config['snis']
 
