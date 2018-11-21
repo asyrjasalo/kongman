@@ -14,6 +14,7 @@ Changes to the original:
 - Add docker-compose [Kong test stack](https://github.com/asyrjasalo/kongpose)
   - Adds dependency to Docker and `docker-compose`
   - TODO: Either a separate make rule or check if docker-compose is installed
+  - TODO: Add creating Kong Admin API loopback (either stack or cli `--option`)
 
 ## Requirements
 
