@@ -26,6 +26,7 @@ class Kong:
 
     def __init__(self, url: str = None, session: typing.Any = None) -> None:
         self.url = url or self.url
+        self.admin_apikey = os.environ.get('KONG_ADMIN_APIKEY', None)
         self.session = session
         self.services = Services(self)
         self.plugins = Plugins(self)
@@ -59,6 +60,8 @@ class Kong:
             self.session = aiohttp.ClientSession()
         method = method or 'GET'
         headers = headers or {}
+        if self.admin_apikey:
+            headers['apikey'] = self.admin_apikey
         headers['Accept'] = 'application/json, text/*; q=0.5'
         response = await self.session.request(
             method, url, headers=headers, **kw
