@@ -46,6 +46,7 @@ publish_pypi: _venv_release
 	twine upload dist/*
 
 test: _venv_dev
+	git submodule update --init --recursive
 	docker-compose --file testkong/docker-compose.yml up --detach \
 		kong-database kong-migration kong
 	KADMIN_SECRET="k0n64dm1n" pytest --cov --spec --instafail --diff-type=auto
