@@ -14,21 +14,21 @@ Changes to the original:
 - Add separate `.venvs`  for dev and release, (re)created by Makefile rules
 - Add some opinionated `pytest` plugins to help myself
 
-## Requirements
-
-- Python >= 3.6
-
 ## Installation
+
+On Python >= 3.6:
 
     pip install aio-kong-incubator
 
 ## CLI
 
-Use `kong-incubator` commandline tool for updating Kong configuration:
+Use `kong-incubator` for updating Kong configuration:
 
     kong-incubator --yaml config.yaml
 
-## From Python
+With `--help` for all options.
+
+## Python
 
 ```python
 from kong.client import Kong
@@ -40,12 +40,12 @@ async with Kong() as cli:
 
 ## Development
 
-To start the `docker-compose` test stack and run tests with `pytest`:
+To start the `docker-compose` stack and `pytest` against it:
 
     make test
 
-Tests cleanup what they create so `docker volumes` are left intact,
-unless `make testdown` is used.
+Tests clean up Kong resources they create.
+Docker volume for PostgreSQL persists until `make testdown` is used.
 
 Some other `make` rules (see `Makefile` for all):
 
