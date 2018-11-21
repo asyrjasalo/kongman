@@ -32,6 +32,7 @@ setup(
     version          = VERSION,
     description      = 'Async Kong client and cli (forked from aio-kong)',
     long_description = DESCRIPTION,
+    long_description_content_type = 'text/markdown',
     author           = 'Anssi Syrjäsalo (aio-kong by Luca Sbardella)',
     author_email     = 'anssi.syrjasalo@gmail.com',
     url              = 'https://github.com/asyrjasalo/aio-kong',
