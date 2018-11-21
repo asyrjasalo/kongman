@@ -40,7 +40,7 @@ build: _venv_release
 	python setup.py clean --all bdist_wheel sdist
 
 publish_testpypi: _venv_release
-	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+	twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing dist/*
 
 publish_pypi: _venv_release
 	twine upload dist/*
