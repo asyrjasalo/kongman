@@ -54,3 +54,4 @@ clean: testdown
 	rm -rf dist build kong/*.egg-info kong/__pycache__
 	rm -rf "${VENV_DEV_PATH}" "${VENV_RELEASE_PATH}"
 	rm -rf .pytest_cache .mypy_cache
+	rm -f .coverage
