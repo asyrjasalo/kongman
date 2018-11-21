@@ -23,13 +23,11 @@ _venv_release:
 	. "${VENV_RELEASE_PATH}/bin/activate"
 	pip install --upgrade pip setuptools wheel
 
-test: _venv_dev
-	docker-compose --file testkong/docker-compose.yml up --detach \
-		kong-database kong-migration kong
-	pytest --spec --instafail --diff-type=auto
+lint: _venv_dev
+	flake8 kong/
 
-testdown:
-	docker-compose --file testkong/docker-compose.yml down --volumes
+mypy: _venv_dev
+	mypy kong/
 
 build: _venv_release
 	pip install .
@@ -41,6 +39,14 @@ publish_testpypi: _venv_release
 
 publish_pypi: _venv_release
 	twine upload dist/*
+
+test: _venv_dev
+	docker-compose --file testkong/docker-compose.yml up --detach \
+		kong-database kong-migration kong
+	pytest --spec --instafail --diff-type=auto
+
+testdown:
+	docker-compose --file testkong/docker-compose.yml down --volumes
 
 all: test build
 
