@@ -1,7 +1,7 @@
 # Async Python Client for Kong
 
 Forked from [aio-kong](https://github.com/lendingblock/aio-kong)
-by [Luca Sbardella](https://github.com/lsbardel),
+by [Luca Sbardella](https://github.com/lsbardel).
 
 Changes to the original:
 - Tests upgraded to work with >= Kong 0.14.x (was 0.13) - also 1.0.0rc2 works
@@ -17,7 +17,7 @@ Changes to the original:
 
 ## Requirements
 
-- Python >=3.6
+- Python 3.6 or 3.7
 
 ## Installation
 
