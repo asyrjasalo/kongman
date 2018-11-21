@@ -28,7 +28,7 @@ with open(join(CURDIR, 'requirements.txt'), encoding="utf-8") as f:
     REQUIREMENTS = f.read().splitlines()
 
 setup(
-    name             = 'aio-kong-014',
+    name             = 'aio-kong-incubator',
     version          = VERSION,
     description      = 'Async Python Client Kong, for Kong >= 0.14',
     long_description = DESCRIPTION,
@@ -39,11 +39,10 @@ setup(
     keywords         = 'kong config cli yaml async aiohttp',
     classifiers      = CLASSIFIERS,
     install_requires = REQUIREMENTS,
-    package_dir      = {'': 'kong'},
-    packages         = find_packages('kong'),
+    packages         = find_packages(exclude=['tests', 'tests.*']),
     entry_points={
         "console_scripts": [
-            "kong014 = kong.cli:main"
+            "kong-incubator = kong.cli:main"
         ]
     }
 )

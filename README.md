@@ -21,7 +21,7 @@ Changes to the original:
 
 ## Installation
 
-    pip install aio-kong-014
+    pip install aio-kong-incubator
 
 ## CLI usage
 
