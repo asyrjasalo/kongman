@@ -21,7 +21,7 @@ _venv_release:
 	virtualenv --version >/dev/null || pip install --user virtualenv
 	virtualenv --clear "${VENV_RELEASE_PATH}"
 	. "${VENV_RELEASE_PATH}/bin/activate"
-	pip install --upgrade pip setuptools wheel
+	pip install --upgrade pip setuptools wheel twine
 
 flake8: _venv_dev
 	flake8 kong/
@@ -40,11 +40,9 @@ build: _venv_release
 	python setup.py clean --all bdist_wheel sdist
 
 publish_testpypi: _venv_release
-	pip install --upgrade twine
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 publish_pypi: _venv_release
-	pip install --upgrade twine
 	twine upload dist/*
 
 test: _venv_dev
