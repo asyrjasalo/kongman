@@ -26,7 +26,7 @@ with open(join(CURDIR, 'requirements.txt'), encoding="utf-8") as f:
     REQUIREMENTS = f.read()
 
 setup(
-    name             = 'aio-kong-incubator',
+    name             = 'kong-incubator',
     version          = VERSION,
     description      = 'Async Kong client and cli (forked from aio-kong)',
     long_description = LONG_DESCRIPTION,
