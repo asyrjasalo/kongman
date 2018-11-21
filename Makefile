@@ -29,6 +29,11 @@ flake8: _venv_dev
 mypy: _venv_dev
 	mypy kong/
 
+install:
+	pip install --user --force-reinstall .
+	### smoke check ###
+	kong-incubator
+
 build: _venv_release
 	pip install .
 	python setup.py clean --all bdist_wheel sdist
