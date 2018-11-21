@@ -31,18 +31,20 @@ mypy: _venv_dev
 
 install:
 	pip install --user --force-reinstall .
-	### smoke check ###
+	### smoke check after user-wide install ###
 	kong-incubator
 
 build: _venv_release
+	### sanity check before building ###
 	pip install .
 	python setup.py clean --all bdist_wheel sdist
-	pip install --upgrade twine
 
 publish_testpypi: _venv_release
+	pip install --upgrade twine
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 publish_pypi: _venv_release
+	pip install --upgrade twine
 	twine upload dist/*
 
 test: _venv_dev
