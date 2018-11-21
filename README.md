@@ -12,6 +12,9 @@ Changes to the original:
   - Opinionated, for myself
 - Add some useful `pytest` plugins
   - Opinionated, for myself
+- Add docker-compose [Kong test stack](https://github.com/asyrjasalo/kongpose)
+  - Adds dependency to Docker and `docker-compose`
+  - TODO: Either a separate make rule or check if docker-compose is installed
 
 ## Requirements
 
