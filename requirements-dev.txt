@@ -1,3 +1,5 @@
+docker-compose
+
 pytest
 pytest-aiohttp
 pytest-cov
@@ -5,4 +7,5 @@ pytest-clarity
 pytest-instafail
 pytest-spec
 
-docker-compose
+flake8
+mypy
