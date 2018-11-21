@@ -6,7 +6,7 @@ by [Luca Sbardella](https://github.com/lsbardel),
 Changes to the original:
 - Tests upgraded to work with >= Kong 0.14.x (was 0.13)
   - Intent to contribute back to original, as soon as have verified in prod
-  - Target to support both 0.13 and >= 0.14.x
+  - Target to support both 0.13 and >= 0.14.x - TODO: Verify backwards compatibility
   - Maybe test with 1.0.0rc as well
 - Tidy up `.venvs`, add `Makefile` for building and testing
   - Opinionated, for myself
