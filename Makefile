@@ -23,7 +23,7 @@ _venv_release:
 	. "${VENV_RELEASE_PATH}/bin/activate"
 	pip install --upgrade pip setuptools wheel
 
-lint: _venv_dev
+flake8: _venv_dev
 	flake8 kong/
 
 mypy: _venv_dev
