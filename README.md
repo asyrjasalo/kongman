@@ -18,7 +18,7 @@ Changes to the original:
 
 On Python >= 3.6:
 
-    pip install aio-kong-incubator
+    pip install kong-incubator
 
 ## CLI
 
