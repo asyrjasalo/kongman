@@ -2,12 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-from io import open  # explicit import of open is required on Python 2
 from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
-
-
-CURDIR = dirname(abspath(__file__))
 
 CLASSIFIERS = '''
 Development Status :: 3 - Alpha
@@ -20,18 +16,20 @@ Programming Language :: Python :: 3.6
 Programming Language :: Python :: 3.7
 Topic :: Utilities
 '''.strip().splitlines()
+
+CURDIR = dirname(abspath(__file__))
 with open(join(CURDIR, 'kong', '__init__.py'), encoding="utf-8") as f:
     VERSION = re.search("__version__ = '(.*)'", f.read()).group(1)
 with open(join(CURDIR, 'README.md'), encoding="utf-8") as f:
-    DESCRIPTION = f.read()
+    LONG_DESCRIPTION = f.read()
 with open(join(CURDIR, 'requirements.txt'), encoding="utf-8") as f:
-    REQUIREMENTS = f.read().splitlines()
+    REQUIREMENTS = f.read()
 
 setup(
     name             = 'aio-kong-incubator',
     version          = VERSION,
     description      = 'Async Kong client and cli (forked from aio-kong)',
-    long_description = DESCRIPTION,
+    long_description = LONG_DESCRIPTION,
     long_description_content_type = 'text/markdown',
     author           = 'Anssi Syrjäsalo (aio-kong by Luca Sbardella)',
     author_email     = 'anssi.syrjasalo@gmail.com',
