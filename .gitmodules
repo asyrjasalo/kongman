@@ -1,0 +1,3 @@
+[submodule "testkong"]
+	path = testkong
+	url = git@github.com:asyrjasalo/kongpose.git

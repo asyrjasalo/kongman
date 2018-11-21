@@ -5,7 +5,4 @@ pytest-clarity
 pytest-instafail
 pytest-spec
 
-agile-toolkit
-flake8
-mypy
-twine
+docker-compose

@@ -24,7 +24,12 @@ _venv_release:
 	pip install --upgrade pip setuptools wheel
 
 test: _venv_dev
+	docker-compose --file testkong/docker-compose.yml up --detach \
+		kong-database kong-migration kong
 	pytest --spec --instafail --diff-type=auto
+
+testdown:
+	docker-compose --file testkong/docker-compose.yml down --volumes
 
 build: _venv_release
 	pip install .
@@ -39,7 +44,7 @@ publish_pypi: _venv_release
 
 all: test build
 
-clean:
+clean: testdown
 	rm -rf dist build kong/*.egg-info kong/__pycache__
 	rm -rf "${VENV_DEV_PATH}" "${VENV_RELEASE_PATH}"
 	rm -rf .pytest_cache
