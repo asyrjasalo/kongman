@@ -43,7 +43,7 @@ publish_pypi: _venv_release
 test: _venv_dev
 	docker-compose --file testkong/docker-compose.yml up --detach \
 		kong-database kong-migration kong
-	KONG_ADMIN_APIKEY="k0n64dm1n" pytest --cov --spec --instafail --diff-type=auto
+	KADMIN_SECRET="k0n64dm1n" pytest --cov --spec --instafail --diff-type=auto
 
 testdown:
 	docker-compose --file testkong/docker-compose.yml down --volumes
