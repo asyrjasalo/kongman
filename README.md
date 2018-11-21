@@ -38,7 +38,7 @@ async with Kong() as cli:
     print(json.dumps(services, indent=4))
 ```
 
-### Development
+## Development
 
 To start the `docker-compose` test stack and run tests with `pytest`:
 
