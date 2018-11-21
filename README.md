@@ -4,17 +4,15 @@ Forked from [aio-kong](https://github.com/lendingblock/aio-kong)
 by [Luca Sbardella](https://github.com/lsbardel).
 
 Changes to the original:
-- Tests upgraded to work with >= Kong 0.14.x (was 0.13) - also 1.0.0rc2 works
-  - Intent to contribute back to original, as soon as have verified in prod
-  - Target to support both 0.13 and >= 0.14.x - TODO: Verify backwards compatibility
-- Tidy up `.venvs`, add `Makefile` for building and testing
-  - Opinionated, for myself
-- Add some useful `pytest` plugins
-  - Opinionated, for myself
-- Add docker-compose [Kong test stack](https://github.com/asyrjasalo/kongpose)
-  - Adds dependency to Docker and `docker-compose`
-  - TODO: Either a separate make rule or check if docker-compose is installed
+- Patch tests to work with >= Kong 0.14.x and 1.0.0rc2 works
+  - TODO: Better backwards compatibility, support testing both 0.13 and >= 0.14.x
+  - TODO: Pick the commit from history and PR it to original after this
+- Add docker-compose [Kong stack](https://github.com/asyrjasalo/kongpose) for tests
+  - TODO: Could be separate `make` rule or ignore if docker-compose is not installed
   - TODO: Add creating Kong Admin API loopback (either stack or cli `--option`)
+- Add `Makefile` rules for flake8, mypy, testing, building and releasing
+- Add separate `.venvs`  for dev and release, (re)created by Makefile rules
+- Add some opinionated `pytest` plugins to help myself
 
 ## Requirements
 
@@ -28,7 +26,7 @@ Changes to the original:
 
 The library installs ``kong`` commandline tool for updating Kong configuration:
 
-    kong --yaml config.yaml
+    kong-incubator --yaml config.yaml
 
 ## Lib usage
 
@@ -48,11 +46,10 @@ async with Kong() as cli:
 
 ### Development
 
-An [empty Kong API Gateway](https://github.com/asyrjasalo/kongpose)
-must be started before running tests.
-
-To run tests using pytest:
+To start the test stack and run pytest:
 
     make test
 
 Tests handle the cleanup of resources they have created.
+
+See `Makefile` for all possible rules.
