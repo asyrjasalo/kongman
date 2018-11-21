@@ -16,29 +16,23 @@ Changes to the original:
 
 ## Requirements
 
-- Python 3.6 or 3.7
+- Python >= 3.6
 
 ## Installation
 
     pip install aio-kong-incubator
 
-## CLI usage
+## CLI
 
-The library installs ``kong`` commandline tool for updating Kong configuration:
+Use `kong-incubator` commandline tool for updating Kong configuration:
 
     kong-incubator --yaml config.yaml
 
-## Lib usage
-
-The Python client can be imported with:
+## From Python
 
 ```python
 from kong.client import Kong
-```
 
-Then used in async code:
-
-```python
 async with Kong() as cli:
     services = await cli.services.get_list()
     print(json.dumps(services, indent=4))
@@ -46,10 +40,19 @@ async with Kong() as cli:
 
 ### Development
 
-To start the test stack and run pytest:
+To start the `docker-compose` test stack and run tests with `pytest`:
 
     make test
 
-Tests handle the cleanup of resources they have created.
+Tests cleanup what they create so `docker volumes` are left intact,
+unless `make testdown` is used.
 
-See `Makefile` for all possible rules.
+Some other `make` rules (see `Makefile` for all):
+
+- `make flake8`
+- `make mypy`
+- `make build`
+- `make install` (install package user-wide)
+- `make release_pypi`
+
+
