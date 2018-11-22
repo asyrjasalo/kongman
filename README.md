@@ -12,11 +12,13 @@ Changes to the original:
   - Added `make` rules for `flake8`, `test`, `build`, `publish_pypi`, etc.
   - Added separate `.venvs`  for dev and release, handled by `make` rules
   - Added (opinionated) `pytest` plugins for dev venv, to help myself
-  - Added `KADMIN_` env vars for using via Kong Admin API loopback with key-auth
+  - Added `--key-only` to output only the consumer key, instead of whole JSON
+  - Added `./examples` for Kong Admin API loopback and an example service via it
+  - Added `KADMIN_APIKEY` for using Kong Admin API via the loopback and key-auth
 
 TODO:
   - PR Kong 0.14.x to original if can make it compatible with 0.13
-  - Consider adding an `--option` for creating Kong Admin API loopback service
+  - Maybe add `--init-loopback` for creating the  Kong Admin API loopback service
 
 
 ## Installation
