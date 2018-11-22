@@ -33,7 +33,7 @@ Create or update the Kong resources according to configuration:
 
     kong-incubator --yaml config.yaml
 
-By default, target `KONG_URL` is [http://localhost:8001](http://localhost:8001).
+By default, target `KONG_URL` is [http://127.0.0.1:8001](http://127.0.0.1:8001).
 
 Run `kong-incubator` for the list of options.
 
