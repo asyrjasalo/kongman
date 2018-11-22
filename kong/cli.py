@@ -29,17 +29,23 @@ from .utils import local_ip
     help='Create or display an authentication key for a consumer'
 )
 @click.option(
+    '--key-only',
+    is_flag=True,
+    default=False,
+    help='Output only the key for the consumer, rather than the consumer'
+)
+@click.option(
     '--yaml', type=click.File('r'),
     help='Yaml configuration to upload'
 )
 @click.pass_context
-def kong(ctx, version, ip, key_auth, yaml):
+def kong(ctx, version, ip, key_auth, key_only, yaml):
     if version:
         click.echo(__version__)
     elif ip:
         click.echo(local_ip())
     elif key_auth:
-        return _run(_auth_key(ctx, key_auth))
+        return _run(_auth_key(ctx, key_auth, key_only))
     elif yaml:
         return _run(_yml(ctx, yaml))
     else:
@@ -59,7 +65,7 @@ async def _yml(ctx, yaml):
             raise click.ClickException(str(exc))
 
 
-async def _auth_key(ctx, consumer):
+async def _auth_key(ctx, consumer, key_only=False):
     async with Kong() as cli:
         try:
             c = await cli.consumers.get(consumer)
@@ -68,7 +74,10 @@ async def _auth_key(ctx, consumer):
                 key = keys[0]
             else:
                 key = await c.create_key_auth()
-            click.echo(json.dumps(key, indent=4))
+            if key_only:
+                click.echo(key['key'])
+            else:
+                click.echo(json.dumps(key, indent=4))
         except KongError as exc:
             raise click.ClickException(str(exc))
 
