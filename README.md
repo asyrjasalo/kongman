@@ -12,10 +12,8 @@ Changes to the original:
   - Added `KADMIN_` env vars for using via Kong Admin API loopback with key-auth
 
 TODO:
-  - Verify 0.14.x compatibility in production use
-  - Tests for both 0.13 and >= 0.14.x (differences: SNIs, minor consumer diff)
-  - PR Kong 0.14.x compatibility to original
-  - Add an `--option` for creating Kong Admin API loopback service
+  - PR Kong 0.14.x to original if can make it compatible with 0.13
+  - Consider adding an `--option` for creating Kong Admin API loopback service
 
 
 ## Installation
