@@ -1,34 +1,42 @@
-# Async Python Client for Kong
+# Async Python Client for Kong (experimental fork of aio-kong)
 
 Forked from [aio-kong](https://github.com/lendingblock/aio-kong)
 by [Luca Sbardella](https://github.com/lsbardel).
 
 Changes to the original:
-- Patch tests to work with >= Kong 0.14.x and 1.0.0rc2 works
-  - TODO: Better backwards compatibility, support testing both 0.13 and >= 0.14.x
-  - TODO: Pick the commit from history and PR it to original after this
-- Add docker-compose [Kong stack](https://github.com/asyrjasalo/kongpose) for tests
-  - TODO: Could be separate `make` rule or ignore if docker-compose is not installed
-  - TODO: Add creating Kong Admin API loopback (either stack or cli `--option`)
-- Add `Makefile` rules for flake8, mypy, testing, building and releasing
-- Add separate `.venvs`  for dev and release, (re)created by Makefile rules
-- Add some opinionated `pytest` plugins to help myself
+  - Patch tests to pass with Kong 0.14.x and 1.0.0rc2
+  - Added [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
+  - Added `Makefile` rules for linting, testing, building and publishing
+  - Added separate `.venvs`  for dev and release, handled by `make` rules
+  - Added (opinionated) `pytest` plugins for dev venv, to help myself
+  - Added `KADMIN_` env vars for using via Kong Admin API loopback with key-auth
+
+TODO:
+  - Verify 0.14.x compatibility in production use
+  - Tests for both 0.13 and >= 0.14.x (differences: SNIs, minor consumer diff)
+  - PR Kong 0.14.x compatibility to original
+  - Add an `--option` for creating Kong Admin API loopback service
+
 
 ## Installation
 
 On Python >= 3.6:
 
-    pip install kong-incubator
+    pip install --upgrade kong-incubator
 
-## CLI
+## Usage
 
-Use `kong-incubator` for updating Kong configuration:
+### CLI
+
+Create or update the Kong resources according to configuration:
 
     kong-incubator --yaml config.yaml
 
-With `--help` for all options.
+By default, target `KONG_URL` is [http://localhost:8001](http://localhost:8001).
 
-## Python
+Run `kong-incubator` for the list of options.
+
+### Python
 
 ```python
 from kong.client import Kong
@@ -40,19 +48,11 @@ async with Kong() as cli:
 
 ## Development
 
-To start the `docker-compose` stack and `pytest` against it:
+To create the `docker-compose` stack and run tests for it:
 
     make test
 
-Tests clean up Kong resources they create.
-Docker volume for PostgreSQL persists until `make testdown` is used.
+Tests clean up the Kong resources they create.
+The docker volume for DB persists until `make testdown` or `make clean` is ran.
 
-Some other `make` rules (see `Makefile` for all):
-
-- `make flake8`
-- `make mypy`
-- `make build`
-- `make install` (install package user-wide)
-- `make release_pypi`
-
-
+Run `make` for the list of rules.
