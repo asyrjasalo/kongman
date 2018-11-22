@@ -23,11 +23,13 @@ __all__ = [
 
 class Kong:
     url = os.environ.get('KONG_URL', 'http://127.0.0.1:8001')
+    kadmin_apikey = os.environ.get('KADMIN_APIKEY', None)
 
-    def __init__(self, url: str = None, session: typing.Any = None) -> None:
+    def __init__(self, url: str = None,
+                 session: typing.Any = None,
+                 kadmin_apikey: str = None) -> None:
         self.url = url or self.url
-        self.admin_keyname = os.environ.get('KADMIN_KEYNAME', 'apikey')
-        self.admin_apikey = os.environ.get('KADMIN_SECRET', None)
+        self.kadmin_apikey = kadmin_apikey or self.kadmin_apikey
         self.session = session
         self.services = Services(self)
         self.plugins = Plugins(self)
@@ -61,9 +63,9 @@ class Kong:
             self.session = aiohttp.ClientSession()
         method = method or 'GET'
         headers = headers or {}
-        if self.admin_apikey:
-            headers[self.admin_keyname] = self.admin_apikey
         headers['Accept'] = 'application/json, text/*; q=0.5'
+        if self.kadmin_apikey:
+            headers['apikey'] = self.kadmin_apikey
         response = await self.session.request(
             method, url, headers=headers, **kw
         )
