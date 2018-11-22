@@ -52,6 +52,7 @@ test: _venv_dev ## Start docker-compose and run tests against it
 	KADMIN_SECRET="k0n64dm1n" pytest --cov --spec --instafail --diff-type=auto
 
 testdown: ## Remove docker-compose services and volumes
+	git submodule update --init --recursive
 	docker-compose --file testkong/docker-compose.yml down --volumes
 
 next: test build ## Run `test`s, if passing `build` dists
