@@ -33,11 +33,11 @@ On Python >= 3.6:
 
 By default, target `KONG_URL` is [http://127.0.0.1:8001](http://127.0.0.1:8001).
 
-Create or update the Kong resources according to configuration:
+Create or update the Kong resources from to configuration:
 
     kong-incubator --yaml ./examples/mockbin.yaml
 
-Create a key-auth for the consumer (if not already created) and output the `key`:
+Create a consumer key-auth `key`, if none exists, and output it:
 
     kong-incubator --key-auth mocker --key-only
 
@@ -55,11 +55,11 @@ async with Kong() as cli:
 
 ## Development
 
-To create the `docker-compose` stack and run tests for it:
+For `docker-compose` env, running tests, building and installing from source:
 
-    make test
+    make
 
-Tests clean up the Kong resources they create.
-The docker volume for DB persists until `make testdown` or `make clean` is ran.
+Tests clean up the Kong resources they create, docker volumes for Kong's
+PostgreSQL and Konga's MongoDB persist until `make dc_down` or `make clean`.
 
-Run `make` for the list of rules.
+Run `make clean` to reset everything, run `make help` for other options.
