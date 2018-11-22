@@ -1,12 +1,15 @@
-# Async Python Client for Kong (experimental fork of aio-kong)
+# Async Python Client for Kong (exp fork of aio-kong)
 
 Forked from [aio-kong](https://github.com/lendingblock/aio-kong)
 by [Luca Sbardella](https://github.com/lsbardel).
 
+For managing Kong using declarative configuration (`yaml`),
+over manual bookeeping of `curl`s and/or resource state handling `bash` scripts.
+
 Changes to the original:
   - Patch tests to pass with Kong 0.14.x and 1.0.0rc2
   - Added [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
-  - Added `Makefile` rules for linting, testing, building and publishing
+  - Added `make` rules for `flake8`, `test`, `build`, `publish_pypi`, etc.
   - Added separate `.venvs`  for dev and release, handled by `make` rules
   - Added (opinionated) `pytest` plugins for dev venv, to help myself
   - Added `KADMIN_` env vars for using via Kong Admin API loopback with key-auth
