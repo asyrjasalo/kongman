@@ -6,6 +6,7 @@ make dc_down dc_init dc_up
 
 ### create or upgrade kadmin resources
 
+sleep 5
 unset KONG_URL # http://127.0.0.1:8001 is the default
 kong-incubator --yaml examples/kadmin.yaml
 export KADMIN_APIKEY=$(kong-incubator --key-auth root --key-only)
@@ -14,6 +15,7 @@ echo "Generated KADMIN_APIKEY: $KADMIN_APIKEY"
 
 ### create or upgrade mockbin resources
 
+sleep 5
 export KONG_URL="http://localhost:8000/kadmin"
 kong-incubator --yaml examples/mockbin.yaml
 export MOCKER_APIKEY=$(kong-incubator --key-auth mocker --key-only)
