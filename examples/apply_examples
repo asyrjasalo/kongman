@@ -5,7 +5,7 @@ set -e
 this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 testkong_path="$this_path/../testkong"
 
-docker-compose --file "$testkong_path/docker-compose.yml" down --volumes
+#docker-compose --file "$testkong_path/docker-compose.yml" down --volumes
 docker-compose --file "$testkong_path/docker-compose.yml" up --detach
 
 # apply kadmin
