@@ -31,11 +31,15 @@ On Python >= 3.6:
 
 ### CLI
 
+By default, target `KONG_URL` is [http://127.0.0.1:8001](http://127.0.0.1:8001).
+
 Create or update the Kong resources according to configuration:
 
-    kong-incubator --yaml config.yaml
+    kong-incubator --yaml ./examples/mockbin.yaml
 
-By default, target `KONG_URL` is [http://127.0.0.1:8001](http://127.0.0.1:8001).
+Create a key-auth for the consumer (if not already created) and output the `key`:
+
+    kong-incubator --key-auth mocker --key-only
 
 Run `kong-incubator` for the list of options.
 
