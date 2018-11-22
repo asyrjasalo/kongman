@@ -1,0 +1,21 @@
+consumers:
+  - username: root
+    groups:
+      - kadmins
+
+services:
+  - name: kadmin
+    url: http://kong:8001
+    routes:
+      - paths: /kadmin
+        strip_path: true
+    plugins:
+      - name: key-auth
+        config:
+          hide_credentials: true
+          key_names:
+            - apikey
+      - name: acl
+        config:
+          whitelist:
+            - kadmins

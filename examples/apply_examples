@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+this_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+testkong_path="$this_path/../testkong"
+
+docker-compose --file "$testkong_path/docker-compose.yml" down --volumes
+docker-compose --file "$testkong_path/docker-compose.yml" up --detach
+
+# apply kadmin
+#export KONG_URL="http://localhost:8001"
+kong-incubator --yaml "$this_path/kadmin.yaml"
+export KADMIN_APIKEY=$(kong-incubator --key-auth root --key-only)
+echo "KADMIN_APIKEY: $KADMIN_APIKEY"
+
+# apply mockbin
+export KONG_URL="http://localhost:8000/kadmin"
+kong-incubator --yaml "$this_path/mockbin.yaml"
+export MOCKER_APIKEY=$(kong-incubator --key-auth mocker --key-only)
+echo "MOCKER_APIKEY: $MOCKER_APIKEY"
