@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 
+set -e
+
 ### reset the docker-compose stack
 
 make dc_down dc_init dc_up
+sleep 5
 
 ### create or upgrade kadmin resources
 
-sleep 5
 unset KONG_URL # http://127.0.0.1:8001 is the default
-kong-incubator --yaml examples/kadmin.yaml
+kong-incubator --yaml examples/kadmin.yaml 1>/dev/null
+sleep 5
 export KADMIN_APIKEY=$(kong-incubator --key-auth root --key-only)
-echo ""
-echo "Generated KADMIN_APIKEY: $KADMIN_APIKEY"
+echo -e "\nRestricted http://localhost:8000/kadmin to apikey: $KADMIN_APIKEY"
 
 ### create or upgrade mockbin resources
 
-sleep 5
 export KONG_URL="http://localhost:8000/kadmin"
-kong-incubator --yaml examples/mockbin.yaml
+kong-incubator --yaml examples/mockbin.yaml 1>/dev/null
+sleep 5
 export MOCKER_APIKEY=$(kong-incubator --key-auth mocker --key-only)
-echo ""
-echo "Generated MOCKER_APIKEY: $MOCKER_APIKEY"
+echo -e "\nRestricted http://localhost:8000 to apikey: $MOCKER_APIKEY"
