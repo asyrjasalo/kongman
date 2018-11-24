@@ -55,18 +55,18 @@ See `kong-incubator --help` for all options.
 
 ### Securing Kong Admin API
 
-Creates [Kong Admin API Loopback](https://docs.konghq.com/0.14.x/secure-admin-api/#kong-api-loopback) requiring key-auth :
+Creates [Kong Admin API Loopback](https://docs.konghq.com/0.14.x/secure-admin-api/#kong-api-loopback) requiring key-auth:
 
     kong-incubator --yaml ./examples/kadmin.yaml
     kong-incubator --key-auth root --output key
 
-Thus, it now requires `KONG_ADMIN_KEY`:
+The `KONG_ADMIN_KEY` is sent in request headers:
 
     export KONG_ADMIN_KEY={{thekeyabove}}
     export KONG_ADMIN_URL=http://localhost:8000/kadmin
     kong-incubator --yaml ..
 
-In Kubernetes/OpenShift, remove the routes to 8001, 8444 to prevent unauthorized.
+In Kubernetes/OpenShift, remove routes to 8001 and 8444.
 
 ### Use as lib
 
