@@ -38,7 +38,7 @@ dc_up: dc_get ## Start docker-compose env on background
 dc_rm: ## Stop and remove docker-compose env and volumes
 	docker-compose --file testkong/docker-compose.yml down --volumes
 
-test: _venv_dev ## Run tests for KONG_URL, clean created resources
+test: _venv_dev ## Run tests for KONG_ADMIN_URL, cleanup after
 	pytest --cov --spec --instafail --diff-type=auto
 
 retest: ## Re-run only the failed tests

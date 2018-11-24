@@ -21,13 +21,6 @@ def test_version():
     assert result.output.rstrip() == __version__
 
 
-def test_ip():
-    runner = CliRunner()
-    result = runner.invoke(kong, ['--ip'])
-    assert result.exit_code == 0
-    assert result.output.rstrip() == local_ip()
-
-
 def test_plugins():
     runner = CliRunner()
     result = runner.invoke(kong, ['--yaml', 'tests/test4.yaml'])

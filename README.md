@@ -7,18 +7,19 @@ For managing Kong using declarative configuration (`yaml`),
 over manual bookeeping of `curl`s and/or resource state handling `bash` scripts.
 
 Changes to the original:
-  - Patch tests to pass with Kong 0.14.x and 1.0.0rc2
+  - Patched tests (SNI, consumer) to pass with Kong 0.14.x and 1.0.0rc2
   - Added [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
   - Added `make` rules for `flake8`, `test`, `build`, `publish_pypi`, etc.
   - Added separate `.venvs`  for dev and release, handled by `make` rules
   - Added (opinionated) `pytest` plugins for dev venv, to help myself
-  - Added `--key-only` to output only the consumer key, instead of whole JSON
+  - Added `--output` to limit to a single property over whole JSON
   - Added `./examples` for Kong Admin API loopback and an example service via it
-  - Added `KADMIN_APIKEY` for using Kong Admin API via the loopback and key-auth
+  - Added `KONG_ADMIN_KEY` for using Kong Admin API via the loopback and key-auth
+  - Change `KONG_URL` -> `KONG_ADMIN_URL`(`http://localhost:8080`) for clarity
+  - Extend `README.md` and `--help`
 
 TODO:
-  - PR Kong 0.14.x to original if can make it compatible with 0.13
-  - Maybe add `--init-loopback` for creating the  Kong Admin API loopback service
+  - Make compatible with 0.13 and PR changes 0.14.x to the original
 
 
 ## Installation
@@ -29,23 +30,46 @@ On Python >= 3.6:
 
 ## Usage
 
-### CLI
+`KONG_ADMIN_URL` defaults [http://localhost:8001](http://localhost:8001).
 
-By default, target `KONG_URL` is [http://127.0.0.1:8001](http://127.0.0.1:8001).
-
-Create or update the Kong resources from to configuration:
+Create or upgrade resources (example [Mockbin](http://mockbin.org/) proxy):
 
     kong-incubator --yaml ./examples/mockbin.yaml
 
-Create a consumer key-auth `key`, if none exists, and output it:
+Generate a random `key` for the consumer:
 
-    kong-incubator --key-auth mocker --key-only
+    kong-incubator --key-auth mocker
 
-Run `kong-incubator` for the list of options.
+Output only if key is already set.
 
-### Python
+See `kong-incubator --help` for all options.
+
+### Securing Kong Admin API
+
+This creates [Kong Admin API Loopback](https://docs.konghq.com/0.14.x/secure-admin-api/#kong-api-loopback).
+
+Create the resources and get the `key` for admin:
+
+    kong-incubator --yaml ./examples/kadmin.yaml
+    kong-incubator --key-auth root --output key
+
+Use Kong Admin API from now on:
+
+    export KONG_ADMIN_KEY={{thekeyabove}}
+    export KONG_ADMIN_URL=http://localhost:8000/kadmin
+    kong-incubator --yaml ..
+
+In Kubernetes/OpenShift, remove route to 8001 to prevent unauthorized access.
+
+## .yaml
+
+On upgrades, the created previous resources are not removed,
+unless they expplicitly have `ensure: absent` defined in `yaml`.
+
+### Usage as lib
 
 ```python
+import json
 from kong.client import Kong
 
 async with Kong() as cli:

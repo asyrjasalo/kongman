@@ -7,18 +7,17 @@ set -e
 make dc_rm dc_init dc_up
 sleep 5
 
-### create or upgrade kadmin resources
-
-unset KONG_URL # http://127.0.0.1:8001 is the default
+### create or upgrade Kong Admin API loopback requiring auth
+unset KONG_ADMIN_URL # http://localhost:8001 is the default
 kong-incubator --yaml examples/kadmin.yaml 1>/dev/null
 sleep 5
-export KADMIN_APIKEY=$(kong-incubator --key-auth root --key-only)
-echo -e "\nRestricted http://localhost:8000/kadmin to apikey: $KADMIN_APIKEY"
+export KONG_ADMIN_KEY=$(kong-incubator --key-auth root --output key)
+echo -e "\nRestricted http://localhost:8000/kadmin to key-auth: $KONG_ADMIN_KEY"
 
-### create or upgrade mockbin resources
+### example to create a proxy requiring auth to mockbin.com
 
-export KONG_URL="http://localhost:8000/kadmin"
+export KONG_ADMIN_URL="http://localhost:8000/kadmin"
 kong-incubator --yaml examples/mockbin.yaml 1>/dev/null
 sleep 5
-export MOCKER_APIKEY=$(kong-incubator --key-auth mocker --key-only)
-echo -e "\nRestricted http://localhost:8000 to apikey: $MOCKER_APIKEY"
+export MOCKBIN_MOCKER_KEY=$(kong-incubator --key-auth mocker --output key)
+echo -e "\nRestricted http://localhost:8000 to key-auth: $MOCKBIN_MOCKER_KEY"

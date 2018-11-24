@@ -1,51 +1,36 @@
-
-import json
 import asyncio
-
 import click
-
+import json
 import yaml as _yaml
 
 from . import __version__
 from .client import Kong, KongError
-from .utils import local_ip
 
 
 @click.command()
 @click.option(
     '--version',
     is_flag=True,
-    default=False,
-    help='Display version and exit'
-)
-@click.option(
-    '--ip',
-    is_flag=True,
-    default=False,
-    help='Show local IP address'
+    help='Output version and exit.'
 )
 @click.option(
     '--key-auth',
-    help='Create or display an authentication key for a consumer'
+    help='Consumer to generate a key to, or output existing.'
 )
 @click.option(
-    '--key-only',
-    is_flag=True,
-    default=False,
-    help='Output only the key for the consumer, rather than the consumer'
+    '--output',
+    help='Output only this property over whole JSON.'
 )
 @click.option(
     '--yaml', type=click.File('r'),
-    help='Yaml configuration to upload'
+    help='Declaration of Kong resources to create or upgrade.'
 )
 @click.pass_context
-def kong(ctx, version, ip, key_auth, key_only, yaml):
+def kong(ctx, version, key_auth, output, yaml):
     if version:
         click.echo(__version__)
-    elif ip:
-        click.echo(local_ip())
     elif key_auth:
-        return _run(_auth_key(ctx, key_auth, key_only))
+        return _run(_auth_key(ctx, key_auth, output))
     elif yaml:
         return _run(_yml(ctx, yaml))
     else:
@@ -65,7 +50,7 @@ async def _yml(ctx, yaml):
             raise click.ClickException(str(exc))
 
 
-async def _auth_key(ctx, consumer, key_only=False):
+async def _auth_key(ctx, consumer, output=None):
     async with Kong() as cli:
         try:
             c = await cli.consumers.get(consumer)
@@ -74,8 +59,8 @@ async def _auth_key(ctx, consumer, key_only=False):
                 key = keys[0]
             else:
                 key = await c.create_key_auth()
-            if key_only:
-                click.echo(key['key'])
+            if output:
+                click.echo(key[output])
             else:
                 click.echo(json.dumps(key, indent=4))
         except KongError as exc:
