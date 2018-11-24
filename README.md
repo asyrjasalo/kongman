@@ -1,12 +1,10 @@
-# Async Python Client for Kong (exp fork of aio-kong)
+# kong-incubator (fork of aio-kong)
 
-Forked from [aio-kong](https://github.com/lendingblock/aio-kong)
-by [Luca Sbardella](https://github.com/lsbardel).
+Declare the Kong you want in `yaml`, over using and documenting `curl` commands.
 
-For managing Kong using declarative configuration (`yaml`),
-over manual bookeeping of `curl`s and/or resource state handling `bash` scripts.
+A fork from [aio-kong](https://github.com/lendingblock/aio-kong)
+by [Luca Sbardella](https://github.com/lsbardel). Changes to the original:
 
-Changes to the original:
   - Patched tests (SNI, consumer) to pass with Kong 0.14.x and 1.0.0rc2
   - Added [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
   - Added `make` rules for `flake8`, `test`, `build`, `publish_pypi`, etc.
@@ -15,11 +13,12 @@ Changes to the original:
   - Added `--output` to limit to a single property over whole JSON
   - Added `./examples` for Kong Admin API loopback and an example service via it
   - Added `KONG_ADMIN_KEY` for using Kong Admin API via the loopback and key-auth
-  - Change `KONG_URL` -> `KONG_ADMIN_URL`(`http://localhost:8080`) for clarity
-  - Extend `README.md` and `--help`
+  - Add`KONG_ADMIN_URL` that defaults to `http://localhost:8000`
+  - Remove `KONG_URL` **BWIC**
+  - Remove `--ip` **BWIC**
 
 TODO:
-  - Make compatible with 0.13 and PR changes 0.14.x to the original
+  - Make compatible with 0.13 as well, PR changes for 0.14.x to the original
 
 
 ## Installation
