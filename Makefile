@@ -63,7 +63,7 @@ publish_pypi: _venv_release ## Publish the `build` dists to pypi.org
 all: dc_get dc_up test build install ## Start testenv, test, build and install
 
 clean: dc_get dc_rm ## Purge testenv, .venvs, dists, and tool caches
-	rm -rf dist build *.egg-info kong/__pycache__
+	rm -rf dist build *.egg-info kong/__pycache__ tests/__pycache__
 	rm -rf .venvs
 	rm -rf .pytest_cache .mypy_cache
 	rm -f .coverage
