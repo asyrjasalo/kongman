@@ -16,7 +16,7 @@ by [Luca Sbardella](https://github.com/lsbardel).
   - Add `--output` to filter a single property out of whole JSON (for scripts)
   - Add `./examples` for Kong Admin API loopback and example endpoint via it
   - Add `KONG_ADMIN_KEY` to use Kong Admin API via loopback and key-auth
-  - Add `KONG_ADMIN_URL`, defaults to `http://localhost:8000`
+  - Add `KONG_ADMIN_URL`, defaults to `http://localhost:8001`
   - Remove `KONG_URL` **BWIC**
   - Remove `--ip` **BWIC**
 

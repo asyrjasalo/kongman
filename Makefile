@@ -8,7 +8,7 @@ VENV_DEV_PATH := .venvs/dev
 VENV_RELEASE_PATH := .venvs/release
 
 # run tests for docker-compose env
-KONG_ADMIN_URL := http://localhost:8000
+KONG_ADMIN_URL := http://localhost:8001
 KONG_ADMIN_KEY :=
 
 help:
