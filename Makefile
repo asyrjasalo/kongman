@@ -32,7 +32,7 @@ mypy: _venv_dev ## Run mypy for static type checking
 dc_get: ## Upgrade to the latest docker-compose env
 	git submodule update --init --recursive
 
-dc_up: dc_get ## Start docker-compose env on background
+dc_up: ## Start docker-compose env on background
 	docker-compose --file testkong/docker-compose.yml up --detach
 
 dc_rm: ## Stop and remove docker-compose env and volumes
