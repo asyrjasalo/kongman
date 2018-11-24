@@ -7,6 +7,10 @@ PATH := ${HOME}/.local/bin:${PATH}
 VENV_DEV_PATH := .venvs/dev
 VENV_RELEASE_PATH := .venvs/release
 
+# run tests for docker-compose env
+KONG_ADMIN_URL := http://localhost:8000
+KONG_ADMIN_KEY :=
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -38,7 +42,7 @@ dc_up: ## Start docker-compose env on background
 dc_rm: ## Stop and remove docker-compose env and volumes
 	docker-compose --file testkong/docker-compose.yml down --volumes
 
-test: _venv_dev ## Run tests for KONG_ADMIN_URL, cleanup after
+test: _venv_dev ## Run tests, cleanup created resources
 	pytest --cov --spec --instafail --diff-type=auto
 
 retest: ## Re-run only the failed tests
