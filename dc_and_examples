@@ -2,9 +2,9 @@
 
 set -e
 
-### reset the docker-compose stack
+### recreate docker-compose env
 
-make dc_down dc_init dc_up
+make dc_rm dc_init dc_up
 sleep 5
 
 ### create or upgrade kadmin resources

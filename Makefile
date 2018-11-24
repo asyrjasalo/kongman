@@ -29,13 +29,13 @@ flake8: _venv_dev ## Run flake8 for static code analysis
 mypy: _venv_dev ## Run mypy for static type checking
 	mypy kong/
 
-dc_init: ## Upgrade to the latest docker-compose env
+dc_get: ## Upgrade to the latest docker-compose env
 	git submodule update --init --recursive
 
-dc_up: dc_init ## Start docker-compose env on background
+dc_up: dc_get ## Start docker-compose env on background
 	docker-compose --file testkong/docker-compose.yml up --detach
 
-dc_down: ## Stop and remove docker-compose env and volumes
+dc_rm: ## Stop and remove docker-compose env and volumes
 	docker-compose --file testkong/docker-compose.yml down --volumes
 
 test: _venv_dev ## Run tests for KONG_URL, clean created resources
@@ -60,9 +60,9 @@ publish_testpypi: _venv_release ## Publish the `build` dists to test.pypi.org
 publish_pypi: _venv_release ## Publish the `build` dists to pypi.org
 	twine upload dist/*
 
-all: dc_init dc_up test build install ## Start testenv, test, build and install
+all: dc_get dc_up test build install ## Start testenv, test, build and install
 
-clean: dc_init dc_down ## Purge testenv, .venvs, dists, and tool caches
+clean: dc_get dc_rm ## Purge testenv, .venvs, dists, and tool caches
 	rm -rf dist build *.egg-info kong/__pycache__
 	rm -rf .venvs
 	rm -rf .pytest_cache .mypy_cache

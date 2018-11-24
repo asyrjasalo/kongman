@@ -55,11 +55,17 @@ async with Kong() as cli:
 
 ## Development
 
-For `docker-compose` env, running tests, building and installing from source:
+Help yourself with `make` rules. If not helpful, please elaborate in issue.
+
+Rules take care of [testkong/docker-compose.yml](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) containing:
+- Kong + PostgreSQL
+- Konga (Admin webapp) + MongoDB
+
+To create and start the env, run tests for it, build and install from source:
 
     make
 
-Tests clean up the Kong resources they create, docker volumes for Kong's
-PostgreSQL and Konga's MongoDB persist until `make dc_down` or `make clean`.
+Tests clean up the Kong resources they create. The Docker volumes for Kong's
+PostgreSQL and Konga's MongoDB persist until `make dc_rm` or `make clean`.
 
-Run `make clean` to reset everything, run `make help` for other options.
+Run `make clean` to reset everything, see `make help` for all options.
