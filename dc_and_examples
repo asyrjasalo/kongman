@@ -4,7 +4,7 @@ set -e
 
 ### recreate docker-compose env
 
-make dc_rm dc_init dc_up
+make dc_rm dc_get dc_up
 sleep 5
 
 ### create or upgrade Kong Admin API loopback requiring auth
