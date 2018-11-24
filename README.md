@@ -2,8 +2,8 @@
 
 Declare the Kong you want in `yaml`, over using and documenting `curl` commands.
 
-A fork from [aio-kong](https://github.com/lendingblock/aio-kong)
-by [Luca Sbardella](https://github.com/lsbardel). Changes to the original:
+Partially incompat fork of [aio-kong](https://github.com/lendingblock/aio-kong)
+by [Luca Sbardella](https://github.com/lsbardel). Changes:
 
   - Patched tests (SNI, consumer) to pass with Kong 0.14.x and 1.0.0rc2
   - Added [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
@@ -18,7 +18,7 @@ by [Luca Sbardella](https://github.com/lsbardel). Changes to the original:
   - Remove `--ip` **BWIC**
 
 TODO:
-  - Make compatible with 0.13 as well, PR changes for 0.14.x to the original
+  - Make compatible with Kong < 0.14, PR the Kong >= 0.14 changes to aio-kong
 
 
 ## Installation
