@@ -1,9 +1,12 @@
-# kong-incubator (fork of aio-kong)
+# kongman (fork of aio-kong)
 
 Declare the Kong you want in `yaml`, over manual `curl`s and keeping docs of them.
+Uses Kong Admin API via async HTTP. Includes example to prevent unauthorized.
 
-Partially incompat fork of [aio-kong](https://github.com/lendingblock/aio-kong)
-by [Luca Sbardella](https://github.com/lsbardel). Changes:
+### Changelog
+
+**BWIC** changes incompatible with [aio-kong](https://github.com/lendingblock/aio-kong)
+by [Luca Sbardella](https://github.com/lsbardel).
 
   - Patch tests (SNI, consumer) to pass on Kong 0.14.x and 1.0.0rc2
   - Add [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
@@ -18,14 +21,16 @@ by [Luca Sbardella](https://github.com/lsbardel). Changes:
   - Remove `--ip` **BWIC**
 
 TODO:
-  - Make compatible with Kong < 0.14. PR the >=0.14 parts back to aio-kong.
+  - Add compatibility for <0.14 Kongs, PR the >=0.14 parts back to aio-kong.
 
 
 ## Installation
 
-On Python >= 3.6:
+From [PyPI](https://pypi.org/project/kong-incubator):
 
     pip install --upgrade kong-incubator
+
+Python >= 3.6 required.
 
 ## Usage
 
@@ -54,15 +59,15 @@ Creates [Kong Admin API Loopback](https://docs.konghq.com/0.14.x/secure-admin-ap
     kong-incubator --yaml ./examples/kadmin.yaml
     kong-incubator --key-auth root --output key
 
-Use Kong Admin API from now on:
+Using Kong Admin API now requires `KONG_ADMIN_KEY`:
 
     export KONG_ADMIN_KEY={{thekeyabove}}
     export KONG_ADMIN_URL=http://localhost:8000/kadmin
     kong-incubator --yaml ..
 
-In Kubernetes/OpenShift, remove routes to 8001, 8444 to prevent unauthorized.
+In Kubernetes/OpenShift, remove the routes to 8001, 8444 to prevent unauthorized.
 
-### Usage as lib
+### Use as lib
 
 ```python
 import json
@@ -78,11 +83,12 @@ async with Kong() as cli:
 Help yourself with `make` rules. If not helpful, please elaborate in an issue.
 
 Rules use virtualenvs `.venvs/dev` testing and `./venvs/release` for building.
+
 They also handle [testkong/docker-compose.yml](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) containing:
 - Kong + PostgreSQL
 - Konga (Admin webapp) + MongoDB
 
-To get everything for above, run tests, build and install from source:
+To create the above, run tests on it, build the package and install it:
 
     make
 
@@ -91,3 +97,15 @@ PostgreSQL and Konga's MongoDB persist until `make dc_rm` or `make clean` is ran
 Running `make clean` remove also created `.venvs`, builds and any caches in repo.
 
 See `make help` for all options.
+
+### Publish
+
+Release venv has `twine` to upload the created wheel and sdists over HTTPS.
+
+Upload to [Test PyPI](https://test.pypi.org/project/kong-incubator):
+
+    make publish_testpypi
+
+Upload to [PyPI](https://pypi.org/project/kong-incubator)
+
+    make publish_pypi

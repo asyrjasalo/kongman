@@ -49,13 +49,11 @@ retest: ## Re-run only the failed tests
 	pytest --cov --spec --instafail --diff-type=auto \
 		--last-failed --last-failed-no-failures none
 
-build: _venv_release ## Build Python dists ready for `publish_`
+build: _venv_release ## Build and install Python dist, ready for `publish_`
 	python setup.py clean --all bdist_wheel sdist
-
-install: ## Pip (re)install user-wide from local git HEAD.
 	pip install --user --force-reinstall .
-	###################################
-	### smoke checking the CLI next ###
+	##################################
+	### smoke check the built dist ###
 	kong-incubator
 
 publish_testpypi: _venv_release ## Publish the `build` dists to test.pypi.org
@@ -64,7 +62,7 @@ publish_testpypi: _venv_release ## Publish the `build` dists to test.pypi.org
 publish_pypi: _venv_release ## Publish the `build` dists to pypi.org
 	twine upload dist/*
 
-all: dc_get dc_up test build install ## Start testenv, test, build and install
+all: dc_get dc_up test build ## Start testenv, test, build and install it
 
 clean: dc_get dc_rm ## Purge testenv, .venvs, dists, and tool caches
 	rm -rf dist build *.egg-info kong/__pycache__ tests/__pycache__
