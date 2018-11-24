@@ -1,12 +1,13 @@
 # kongman (fork of aio-kong)
 
-Declare the Kong you want in `yaml`, over manual `curl`s and keeping docs of them.
-Uses Kong Admin API via async HTTP. Includes example to prevent unauthorized.
+Declare the [Kong](https://konghq.com/solutions/gateway/) you want with `yaml`.
+Stop running manual `curl`s, especially keeping docs of them.
+Uses Kong Admin API with async HTTP. Upgrades only the changed resources.
+Includes setup to enforce authorization to Admin API.
 
 ### Changelog
 
-**BWIC** changes incompatible with [aio-kong](https://github.com/lendingblock/aio-kong)
-by [Luca Sbardella](https://github.com/lsbardel).
+Some changes backwards incompatible with [aio-kong](https://github.com/lendingblock/aio-kong) by [Luca Sbardella](https://github.com/lsbardel).
 
   - Patch tests (SNI, consumer) to pass on Kong 0.14.x and 1.0.0rc2
   - Add [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
@@ -54,12 +55,12 @@ See `kong-incubator --help` for all options.
 
 ### Securing Kong Admin API
 
-Creates [Kong Admin API Loopback](https://docs.konghq.com/0.14.x/secure-admin-api/#kong-api-loopback) to require key-auth :
+Creates [Kong Admin API Loopback](https://docs.konghq.com/0.14.x/secure-admin-api/#kong-api-loopback) requiring key-auth :
 
     kong-incubator --yaml ./examples/kadmin.yaml
     kong-incubator --key-auth root --output key
 
-Using Kong Admin API now requires `KONG_ADMIN_KEY`:
+Thus, it now requires `KONG_ADMIN_KEY`:
 
     export KONG_ADMIN_KEY={{thekeyabove}}
     export KONG_ADMIN_URL=http://localhost:8000/kadmin
