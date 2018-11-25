@@ -23,8 +23,7 @@ _venv_dev:
 
 _venv_release:
 	virtualenv --version >/dev/null || pip install --user virtualenv
-	rm -rf "${VENV_RELEASE_PATH}"
-	virtualenv --no-site-packages "${VENV_RELEASE_PATH}"
+	virtualenv --clear --no-site-packages "${VENV_DEV_PATH}"
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel
 
@@ -65,7 +64,7 @@ install: ## Install package from source tree
 	pip install --force-reinstall .
 	###############################################
 	### Smoke check after installed from source ###
-	kong-incubator --version
+	kong-incubator --help
 
 install_testpypi: ## Install the latest TestPyPI release
 	pip install --force-reinstall \
