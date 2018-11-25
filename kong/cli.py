@@ -15,15 +15,15 @@ from .client import Kong, KongError
 )
 @click.option(
     '--key-auth',
-    help='Consumer to generate a key to, or output existing.'
+    help='Consumer to generate a key or output the existing.'
 )
 @click.option(
     '--output',
-    help='Output only this property over whole JSON.'
+    help='Output only this property rather than whole JSON.'
 )
 @click.option(
     '--yaml', type=click.File('r'),
-    help='Declaration of Kong resources to create or upgrade.'
+    help='Defines what Kong resources to create or upgrade.'
 )
 @click.pass_context
 def kong(ctx, version, key_auth, output, yaml):
