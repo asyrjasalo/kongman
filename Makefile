@@ -66,11 +66,11 @@ install: ## Install package from source tree
 	### Smoke check after installed from source ###
 	kong-incubator --version
 
-publish_testpypi: _venv_release ## Publish dists to test.pypi.org
+publish_testpypi: ## Publish dists to test.pypi.org
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-publish_pypi: _venv_release ## Publish dists to pypi.org
+publish_pypi: ## Publish dists to pypi.org
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload dist/*
 
