@@ -23,7 +23,7 @@ _venv_dev:
 
 _venv_release:
 	virtualenv --version >/dev/null || pip install --user virtualenv
-	virtualenv --clear --no-site-packages "${VENV_DEV_PATH}"
+	virtualenv --clear --no-site-packages "${VENV_RELEASE_PATH}"
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel
 
