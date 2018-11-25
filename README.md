@@ -1,9 +1,9 @@
 # kongman (fork of aio-kong)
 
-Declare the [Kong](https://konghq.com/solutions/gateway/) you want with `yaml`.
-Stop running manual `curl`s, especially keeping docs of them.
-Uses Kong Admin API with async HTTP. Upgrades only the changed resources.
-Includes setup to enforce authorization to Admin API.
+Declare the [Kong](https://konghq.com/solutions/gateway/) you want, with `yaml`.
+Stop manual `curl`s and maintaining docs of them.
+Manages resources via Kong Admin API (REST, async HTTP, JSON).
+Includes an example to add authorization to the Admin API itself.
 
 ### Changelog
 
@@ -11,8 +11,8 @@ Some changes backwards incompatible with [aio-kong](https://github.com/lendingbl
 
   - Patch tests (SNI, consumer) to pass on Kong 0.14.x and 1.0.0rc2
   - Add [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
-  - Add `make` rules for `flake8`, `test`, `build`, `publish_pypi`, etc.
-  - Add separate `.venvs` for dev and release, handled by `make` rules
+  - Add `make` rules for `flake8`, `mypy`, `test`, `build`, `publish_pypi`, ...
+  - Add creating `./venvs` for dev and release, handled by `make` rules
   - Add (opinionated) `pytest` plugins, to help myself
   - Add `--output` to filter a single property out of whole JSON (for scripts)
   - Add `./examples` for Kong Admin API loopback and example endpoint via it
@@ -47,9 +47,9 @@ Generate a random `key` for its consumer:
 
 Output only if `key` is already set.
 
-Re-running later `--yaml` file only upgrades the changed resources.
-Removing resource(s) from file does not delete it from Kong,
-unless the resource has `ensure: absent` defined in `.yaml`.
+Running with a changed `--yaml` only upgrades the changed parts.
+Resources been removed from the file are not deleted from Kong.
+To delete a resource from Kong, add `ensure: absent` for it in YAML.
 
 See `kong-incubator --help` for all options.
 
@@ -81,32 +81,36 @@ async with Kong() as cli:
 
 ## Development
 
-Help yourself with `make` rules. If not helpful, please elaborate in an issue.
+Tests assume you have Kong Admin API running at [http://localhost:8001](http://localhost:8001).
 
-Rules use virtualenvs `.venvs/dev` testing and `./venvs/release` for building.
+If you have `docker-compose` available, you can run `make dc` to get
+[a test env](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) as a git submodule and start it on background for tests.
 
-They also handle [testkong/docker-compose.yml](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) containing:
-- Kong + PostgreSQL
-- Konga (Admin webapp) + MongoDB
+Use `make dc_rm` to stop and remove the stack, including volumes for DBs.
 
-To create the above, run tests on it, build the package and install it:
+Run `make` as a shortcut for three other rules:
 
-    make
+- `make test` creates `./venvs/dev` that has also dev requirements installed.
+To re-run only the failed tests, if any, use `make retest` which also skips
+installation of requirements. Both clean up the Kong resources they create.
 
-Tests clean up the Kong resources they created. The Docker volumes for Kong's
-PostgreSQL and Konga's MongoDB persist until `make dc_rm` or `make clean` is ran.
-Running `make clean` remove also created `.venvs`, builds and any caches in repo.
+- `make build` creates `./venvs/release` on each run,
+installs build tools and builds source and wheel dists.
+
+- `make install` to install package from source tree.
+
+Run `make clean` to remove `./venvs`, builds, dists and caches.
 
 See `make help` for all options.
 
 ### Publish
 
-Release venv has `twine` to upload the created wheel and sdists over HTTPS.
+[Twine](https://twine.readthedocs.io/en/latest) included for uploading over HTTPS.
 
-Upload to [Test PyPI](https://test.pypi.org/project/kong-incubator):
+To [Test PyPI](https://test.pypi.org/project/kong-incubator):
 
     make publish_testpypi
 
-Upload to [PyPI](https://pypi.org/project/kong-incubator)
+To [PyPI](https://pypi.org/project/kong-incubator)
 
     make publish_pypi

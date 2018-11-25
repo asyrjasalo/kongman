@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := all
 
-# Some environments (OS X) do not have this in PATH for `pip install --user`
+# At least OS X does not have this in default PATH, for `pip install --user`
 PATH := ${HOME}/.local/bin:${PATH}
 
 # virtualenv related
@@ -18,53 +18,67 @@ help:
 _venv_dev:
 	virtualenv --version >/dev/null || pip install --user virtualenv
 	test -d "${VENV_DEV_PATH}" || virtualenv "${VENV_DEV_PATH}"
-	. "${VENV_DEV_PATH}/bin/activate"
+	. "${VENV_DEV_PATH}/bin/activate" && \
 	pip install --quiet -r requirements-dev.txt
 
 _venv_release:
 	virtualenv --version >/dev/null || pip install --user virtualenv
 	virtualenv --clear "${VENV_RELEASE_PATH}"
-	. "${VENV_RELEASE_PATH}/bin/activate"
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel twine
 
-flake8: _venv_dev ## Run flake8 for static code analysis
+flake8: ## Run flake8 for static code analysis
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	flake8 kong/
 
-mypy: _venv_dev ## Run mypy for static type checking
+mypy: ## Run mypy for static type checking
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	mypy kong/
 
-dc_get: ## Upgrade to the latest docker-compose env
+dc: ## Start docker-compose env on background
 	git submodule update --init --recursive
-
-dc_up: ## Start docker-compose env on background
 	docker-compose --file testkong/docker-compose.yml up --detach
 
 dc_rm: ## Stop and remove docker-compose env and volumes
+	git submodule update --init --recursive
 	docker-compose --file testkong/docker-compose.yml down --volumes
 
-test: _venv_dev ## Run tests, cleanup created resources
+test: _venv_dev ## Run tests. Installs requirements first.
+	. "${VENV_DEV_PATH}/bin/activate" && \
 	pytest --cov --spec --instafail --diff-type=auto
 
-retest: ## Re-run only the failed tests
+retest: ## Run failed tests only. If none, run all.
+	. "${VENV_DEV_PATH}/bin/activate" && \
 	pytest --cov --spec --instafail --diff-type=auto \
-		--last-failed --last-failed-no-failures none
+		--last-failed --last-failed-no-failures all
 
-build: _venv_release ## Build and install Python dist, ready for `publish_`
+build: _venv_release ## Build source dist and wheel
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
+	pip install --force-reinstall .
+	##########################################
+	### Sanity check before building dists ###
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
+	kong-incubator --version
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	python setup.py clean --all bdist_wheel sdist
-	pip install --user --force-reinstall .
-	##################################
-	### smoke check the built dist ###
-	kong-incubator
 
-publish_testpypi: _venv_release ## Publish the `build` dists to test.pypi.org
+install: ## Install package from source tree
+	pip install --force-reinstall .
+	###############################################
+	### Smoke check after installed from source ###
+	kong-incubator --version
+
+publish_testpypi: _venv_release ## Publish dists to test.pypi.org
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-publish_pypi: _venv_release ## Publish the `build` dists to pypi.org
+publish_pypi: _venv_release ## Publish dists to pypi.org
+	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload dist/*
 
-all: dc_get dc_up test build ## Start testenv, test, build and install it
+all: test build install ## Run test, build and install
 
-clean: dc_get dc_rm ## Purge testenv, .venvs, dists, and tool caches
+clean: ## Remove .venvs, builds, dists, and caches
 	rm -rf dist build *.egg-info kong/__pycache__ tests/__pycache__
 	rm -rf .venvs
 	rm -rf .pytest_cache .mypy_cache
