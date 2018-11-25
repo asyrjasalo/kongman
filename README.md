@@ -16,8 +16,9 @@ Some changes backwards incompatible with [aio-kong](https://github.com/lendingbl
   - Add (opinionated) `pytest` plugins, to help myself
   - Add `--output` to limit output to a JSON property (for scripts), or have `None`
   - Add `./examples` for Kong Admin API loopback and example endpoint via it
-  - Add `KONG_ADMIN_KEY` to use Kong Admin API via loopback and key-auth
   - Add `KONG_ADMIN_URL`, defaults to `http://localhost:8001`
+  - Add `KONG_ADMIN_KEY` to use Kong Admin API via loopback and key-auth
+  - Add `--admin-url` and `--admin-key` to take precedence over above two
   - Remove `KONG_URL` **BWIC**
   - Remove `--ip` **BWIC**
 
@@ -45,7 +46,7 @@ Generate a random `key` for its consumer:
 
     kong-incubator --key-auth mocker
 
-Output only if `key` is already set.
+Output only if `key` has been already set.
 
 Running with a changed `--yaml` only upgrades the changed parts.
 Resources been removed from the file are not deleted from Kong.

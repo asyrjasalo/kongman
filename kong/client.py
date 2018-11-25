@@ -22,14 +22,13 @@ __all__ = [
 
 
 class Kong:
-    url = os.environ.get('KONG_ADMIN_URL', 'http://localhost:8001')
-    admin_apikey = os.environ.get('KONG_ADMIN_KEY', None)
+    url = 'http://localhost:8001'
 
     def __init__(self, url: str = None,
                  session: typing.Any = None,
-                 admin_apikey: str = None) -> None:
+                 admin_key: str = None) -> None:
         self.url = url or self.url
-        self.admin_apikey = admin_apikey or self.admin_apikey
+        self.admin_key = admin_key
         self.session = session
         self.services = Services(self)
         self.plugins = Plugins(self)
@@ -64,8 +63,8 @@ class Kong:
         method = method or 'GET'
         headers = headers or {}
         headers['Accept'] = 'application/json, text/*; q=0.5'
-        if self.admin_apikey:
-            headers['apikey'] = self.admin_apikey
+        if self.admin_key:
+            headers['apikey'] = self.admin_key
         response = await self.session.request(
             method, url, headers=headers, **kw
         )

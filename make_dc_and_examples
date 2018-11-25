@@ -2,27 +2,26 @@
 
 set -e
 
-if ! which docker-compose >/dev/null ; then
-  echo "No docker-compose was found in PATH."
-  exit 1
-fi
+### recreate env and install package from source
+make --silent dc_rm dc install
 
-### recreate docker-compose env
-
-make dc_rm dc install
-sleep 5
+unset KONG_ADMIN_KEY
+unset KONG_ADMIN_URL
 
 ### create or upgrade Kong Admin API loopback requiring auth
-unset KONG_ADMIN_URL # http://localhost:8001 is the default
 kong-incubator --yaml examples/kadmin.yaml --output None
-sleep 5
-export KONG_ADMIN_KEY=$(kong-incubator --key-auth root --output key)
-echo -e "\nRestricted http://localhost:8000/kadmin to key-auth: $KONG_ADMIN_KEY"
+admin_key=$(kong-incubator --key-auth root --output key)
+echo "Send header 'apikey:$admin_key' to authenticate http://localhost:8000/kadmin"
 
-### example to create a proxy requiring auth to mockbin.com
+### example to create a new service via the authenticated Admin API
+KONG_ADMIN_URL=http://localhost:8000/kadmin kong-incubator \
+  --admin-key=$admin_key \
+  --yaml examples/mockbin.yaml \
+  --output None
 
-export KONG_ADMIN_URL="http://localhost:8000/kadmin"
-kong-incubator --yaml examples/mockbin.yaml --output None
-sleep 5
-export MOCKBIN_MOCKER_KEY=$(kong-incubator --key-auth mocker --output key)
-echo -e "\nRestricted http://localhost:8000 to key-auth: $MOCKBIN_MOCKER_KEY"
+mockbin_key=$(KONG_ADMIN_KEY=$admin_key kong-incubator \
+  --admin-url=http://localhost:8000/kadmin \
+  --key-auth mocker \
+  --output key)
+
+echo "Send header 'apikey:$mockbin_key' to authenticate http://localhost:8000"
