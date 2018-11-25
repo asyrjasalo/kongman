@@ -17,13 +17,13 @@ help:
 
 _venv_dev:
 	virtualenv --version >/dev/null || pip install --user virtualenv
-	test -d "${VENV_DEV_PATH}" || virtualenv "${VENV_DEV_PATH}"
+	test -d "${VENV_DEV_PATH}" || virtualenv --no-site-packages "${VENV_DEV_PATH}"
 	. "${VENV_DEV_PATH}/bin/activate" && \
 	pip install --quiet -r requirements-dev.txt
 
 _venv_release:
 	virtualenv --version >/dev/null || pip install --user virtualenv
-	virtualenv --clear "${VENV_RELEASE_PATH}"
+	virtualenv --no-site-packages --clear "${VENV_RELEASE_PATH}"
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel twine
 
@@ -53,8 +53,7 @@ retest: ## Run failed tests only. If none, run all.
 		--last-failed --last-failed-no-failures all
 
 build: _venv_release ## Build source dist and wheel
-	. "${VENV_RELEASE_PATH}/bin/activate" && \
-	pip install --force-reinstall .
+	. "${VENV_RELEASE_PATH}/bin/activate" && pip install --force-reinstall .
 	##########################################
 	### Sanity check before building dists ###
 	. "${VENV_RELEASE_PATH}/bin/activate" && kong-incubator --version && \
@@ -69,10 +68,11 @@ install: ## Install package from source tree
 publish_testpypi: ## Publish dists to test.pypi.org
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+	# pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple kong-incubator
 
 publish_pypi: ## Publish dists to pypi.org
-	. "${VENV_RELEASE_PATH}/bin/activate" && \
-	twine upload dist/*
+	. "${VENV_RELEASE_PATH}/bin/activate" && twine upload dist/*
+	# pip installl --upgrade kong-incubator
 
 all: test build install ## Run test, build and install
 
