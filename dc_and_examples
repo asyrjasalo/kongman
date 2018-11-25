@@ -2,6 +2,11 @@
 
 set -e
 
+if ! which docker-compose >/dev/null ; then
+  echo "No docker-compose was found in PATH."
+  exit 1
+fi
+
 ### recreate docker-compose env
 
 make dc_rm dc install
