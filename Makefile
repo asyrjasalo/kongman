@@ -57,9 +57,7 @@ build: _venv_release ## Build source dist and wheel
 	pip install --force-reinstall .
 	##########################################
 	### Sanity check before building dists ###
-	. "${VENV_RELEASE_PATH}/bin/activate" && \
-	kong-incubator --version
-	. "${VENV_RELEASE_PATH}/bin/activate" && \
+	. "${VENV_RELEASE_PATH}/bin/activate" && kong-incubator --version && \
 	python setup.py clean --all bdist_wheel sdist
 
 install: ## Install package from source tree
