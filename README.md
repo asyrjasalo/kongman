@@ -14,7 +14,7 @@ Some changes backwards incompatible with [aio-kong](https://github.com/lendingbl
   - Add `make` rules for `flake8`, `mypy`, `test`, `build`, `publish_pypi`, ...
   - Add creating `./venvs` for dev and release, handled by `make` rules
   - Add (opinionated) `pytest` plugins, to help myself
-  - Add `--output` to filter a single property out of whole JSON (for scripts)
+  - Add `--output` to limit output to a JSON property (for scripts), or have `None`
   - Add `./examples` for Kong Admin API loopback and example endpoint via it
   - Add `KONG_ADMIN_KEY` to use Kong Admin API via loopback and key-auth
   - Add `KONG_ADMIN_URL`, defaults to `http://localhost:8001`
@@ -84,9 +84,8 @@ async with Kong() as cli:
 Tests assume you have Kong Admin API running at [http://localhost:8001](http://localhost:8001).
 
 If you have `docker-compose` available, you can run `make dc` to get
-[a test env](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) as a git submodule and start it on background for tests.
-
-Use `make dc_rm` to stop and remove the stack, including volumes for DBs.
+[test env](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) as a git submodule and start it on background for tests.
+Use `make dc_rm` to stop and remove the stack, including the volumes for DBs.
 
 Run `make` as a shortcut for three other rules:
 
