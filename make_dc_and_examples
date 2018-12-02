@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 set -e
+unset KONG_ADMIN_URL KONG_ADMIN_KEY
+
 
 ### recreate env and install package from source
 make --silent dc_rm dc install
 
-unset KONG_ADMIN_KEY
-unset KONG_ADMIN_URL
 
 ### create or upgrade Kong Admin API loopback requiring auth
 kong-incubator --yaml examples/kadmin.yaml --output None
