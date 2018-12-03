@@ -60,8 +60,8 @@ build: _venv_release ## Build source dist and wheel
 	python setup.py clean --all bdist_wheel sdist && \
 	pip install --upgrade twine
 
-install: ## Install package from source tree
-	pip install --force-reinstall .
+install: ## Install package from source tree, as --editable
+	pip install --editable .
 	###############################################
 	### Smoke check after installed from source ###
 	kong-incubator --help
