@@ -35,6 +35,10 @@ _venv_release:
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel
 
+.PHONY: black
+black: ## Reformat source code in-place
+	. "${VENV_DEV_PATH}/bin/activate" && black .
+
 .PHONY: flake8
 flake8: ## Run flake8 for static code analysis
 	. "${VENV_DEV_PATH}/bin/activate" && flake8
