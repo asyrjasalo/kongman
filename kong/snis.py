@@ -3,6 +3,7 @@ from .components import CrudComponent, KongEntity
 
 class Snis(CrudComponent):
     """Kong SNI API component"""
+
     def wrap(self, data):
         return Sni(self, data)
 
@@ -13,7 +14,7 @@ class Snis(CrudComponent):
             data = [data]
         result = []
         for entry in data:
-            name = entry.pop('name')
+            name = entry.pop("name")
             if await self.has(name):
                 sni = await self.update(name, **entry)
             else:

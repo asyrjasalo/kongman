@@ -5,7 +5,7 @@ import re
 from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
 
-CLASSIFIERS = '''
+CLASSIFIERS = """
 Development Status :: 3 - Alpha
 Intended Audience :: Developers
 Intended Audience :: System Administrators
@@ -16,34 +16,30 @@ Programming Language :: Python :: 3 :: Only
 Programming Language :: Python :: 3.6
 Programming Language :: Python :: 3.7
 Topic :: Utilities
-'''.strip().splitlines()
+""".strip().splitlines()
 
 CURDIR = dirname(abspath(__file__))
-with open(join(CURDIR, 'kong', '__init__.py'), encoding="utf-8") as f:
+with open(join(CURDIR, "kong", "__init__.py"), encoding="utf-8") as f:
     VERSION = re.search("__version__ = '(.*)'", f.read()).group(1)
-with open(join(CURDIR, 'README.md'), encoding="utf-8") as f:
+with open(join(CURDIR, "README.md"), encoding="utf-8") as f:
     LONG_DESCRIPTION = f.read()
-with open(join(CURDIR, 'requirements.txt'), encoding="utf-8") as f:
+with open(join(CURDIR, "requirements.txt"), encoding="utf-8") as f:
     REQUIREMENTS = f.read()
 
 setup(
-    name='kong-incubator',
+    name="kong-incubator",
     version=VERSION,
-    description='Declare and manage Kong resources with yaml',
+    description="Declare and manage Kong resources with yaml",
     long_description=LONG_DESCRIPTION,
-    long_description_content_type='text/markdown',
-    author='Anssi Syrjäsalo (aio-kong by Luca Sbardella)',
-    author_email='anssi.syrjasalo@gmail.com',
-    url='https://github.com/asyrjasalo/kongman',
-    license='BSD License',
-    platforms='any',
-    keywords='kong admin yaml configuration async cli',
+    long_description_content_type="text/markdown",
+    author="Anssi Syrjäsalo (aio-kong by Luca Sbardella)",
+    author_email="anssi.syrjasalo@gmail.com",
+    url="https://github.com/asyrjasalo/kongman",
+    license="BSD License",
+    platforms="any",
+    keywords="kong admin yaml configuration async cli",
     classifiers=CLASSIFIERS,
     install_requires=REQUIREMENTS,
-    packages=find_packages(exclude=['tests', 'tests.*']),
-    entry_points={
-        "console_scripts": [
-            "kong-incubator = kong.cli:main"
-        ]
-    }
+    packages=find_packages(exclude=["tests", "tests.*"]),
+    entry_points={"console_scripts": ["kong-incubator = kong.cli:main"]},
 )

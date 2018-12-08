@@ -7,5 +7,6 @@ pytest-clarity
 pytest-instafail
 pytest-spec
 
+black
 flake8
 mypy

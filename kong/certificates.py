@@ -9,6 +9,5 @@ class Certificates(CrudComponent):
 
 
 class Certificate(KongEntity):
-
     def add_sni(self, host):
         pass

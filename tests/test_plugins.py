@@ -4,40 +4,40 @@ from kong.client import KongError
 
 
 async def test_consumer(cli, consumer):
-    assert consumer.username == 'test-xx'
-    assert consumer.get('custom_id', '') is None
+    assert consumer.username == "test-xx"
+    assert consumer.get("custom_id", "") is None
 
 
 async def test_jwt_create(cli, consumer):
     jwt = await consumer.create_jwt()
-    assert jwt['consumer_id'] == consumer.id
+    assert jwt["consumer_id"] == consumer.id
     data = await consumer.jwts()
     assert data
-    data = [d for d in data if d['id'] == jwt['id']]
+    data = [d for d in data if d["id"] == jwt["id"]]
     assert data
-    jwt2 = await consumer.get_jwt(jwt['id'])
+    jwt2 = await consumer.get_jwt(jwt["id"])
     assert jwt == jwt2
 
 
 async def test_jwt_delete(cli, consumer):
     jwt = await consumer.create_jwt()
-    assert jwt['consumer_id'] == consumer.id
-    await consumer.delete_jwt(jwt['id'])
+    assert jwt["consumer_id"] == consumer.id
+    await consumer.delete_jwt(jwt["id"])
     with pytest.raises(KongError):
-        await consumer.delete_jwt(jwt['id'])
+        await consumer.delete_jwt(jwt["id"])
 
 
 async def test_key_auth_create(cli, consumer):
     auth = await consumer.create_key_auth()
-    assert auth['consumer_id'] == consumer.id
+    assert auth["consumer_id"] == consumer.id
 
 
 async def test_key_auth_delete(cli, consumer):
     auth = await consumer.create_key_auth()
-    assert auth['consumer_id'] == consumer.id
-    await consumer.delete_key_auth(auth['id'])
+    assert auth["consumer_id"] == consumer.id
+    await consumer.delete_key_auth(auth["id"])
     with pytest.raises(KongError):
-        await consumer.delete_key_auth(auth['id'])
+        await consumer.delete_key_auth(auth["id"])
 
 
 async def test_get_or_create_jwt(cli, consumer):
@@ -47,9 +47,9 @@ async def test_get_or_create_jwt(cli, consumer):
 
 
 async def test_group(cli, consumer):
-    r = await consumer.create_acls('a')
-    assert r['consumer_id'] == consumer.id
-    assert r['group'] == 'a'
-    r = await consumer.create_acls('b')
-    assert r['consumer_id'] == consumer.id
-    assert r['group'] == 'b'
+    r = await consumer.create_acls("a")
+    assert r["consumer_id"] == consumer.id
+    assert r["group"] == "a"
+    r = await consumer.create_acls("b")
+    assert r["consumer_id"] == consumer.id
+    assert r["group"] == "b"

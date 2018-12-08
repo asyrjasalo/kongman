@@ -9,36 +9,32 @@ from .client import Kong, KongError
 
 @click.command()
 @click.option(
-    '--admin-url',
+    "--admin-url",
     envvar="KONG_ADMIN_URL",
-    help='Kong Admin API URL.\nDefault: http://localhost:8001\n' +
-    'Precedence over KONG_ADMIN_URL'
+    help="Kong Admin API URL.\nDefault: http://localhost:8001\n"
+    + "Precedence over KONG_ADMIN_URL",
 )
 @click.option(
-    '--admin-key',
+    "--admin-key",
     envvar="KONG_ADMIN_KEY",
-    help='Kong Admin API apikey if required.\nDefault: None\n' +
-    'Precedence over KONG_ADMIN_KEY'
+    help="Kong Admin API apikey if required.\nDefault: None\n"
+    + "Precedence over KONG_ADMIN_KEY",
 )
 @click.option(
-    '--key-auth',
-    help='Consumer to generate a key or output the existing.'
+    "--key-auth", help="Consumer to generate a key or output the existing."
 )
 @click.option(
-    '--yaml', type=click.File('r'),
-    help='Defines one or many Kong resources by their target state.'
+    "--yaml",
+    type=click.File("r"),
+    help="Defines one or many Kong resources by their target state.",
 )
 @click.option(
-    '--output',
+    "--output",
     default=True,
-    help='If given, restrict output to this JSON property, or None.\n' +
-    'By default, output everything.'
+    help="If given, restrict output to this JSON property, or None.\n"
+    + "By default, output everything.",
 )
-@click.option(
-    '--version',
-    is_flag=True,
-    help='Output version and exit.'
-)
+@click.option("--version", is_flag=True, help="Output version and exit.")
 @click.pass_context
 def kong(ctx, admin_url, admin_key, key_auth, yaml, output, version):
     if version:
@@ -90,5 +86,5 @@ async def _auth_key(ctx, consumer, output, admin_url, admin_key):
             raise click.ClickException(str(exc))
 
 
-def main():     # pragma    nocover
+def main():  # pragma    nocover
     kong()

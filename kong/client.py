@@ -13,19 +13,15 @@ from .acls import Acls
 from .snis import Snis
 
 
-__all__ = [
-    'Kong',
-    'KongError',
-    'KongResponseError'
-]
+__all__ = ["Kong", "KongError", "KongResponseError"]
 
 
 class Kong:
-    url = 'http://localhost:8001'
+    url = "http://localhost:8001"
 
-    def __init__(self, url: str = None,
-                 session: typing.Any = None,
-                 admin_key: str = None) -> None:
+    def __init__(
+        self, url: str = None, session: typing.Any = None, admin_key: str = None
+    ) -> None:
         self.url = url or self.url
         self.admin_key = admin_key
         self.session = session
@@ -38,6 +34,7 @@ class Kong:
 
     def __repr__(self) -> str:
         return self.url
+
     __str__ = __repr__
 
     @property
@@ -54,16 +51,24 @@ class Kong:
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
         await self.close()
 
-    async def execute(self, url, method=None, headers=None,
-                      callback=None, wrap=None, timeout=None, skip_error=None,
-                      **kw):
+    async def execute(
+        self,
+        url,
+        method=None,
+        headers=None,
+        callback=None,
+        wrap=None,
+        timeout=None,
+        skip_error=None,
+        **kw,
+    ):
         if not self.session:
             self.session = aiohttp.ClientSession()
-        method = method or 'GET'
+        method = method or "GET"
         headers = headers or {}
-        headers['Accept'] = 'application/json, text/*; q=0.5'
+        headers["Accept"] = "application/json, text/*; q=0.5"
         if self.admin_key:
-            headers['apikey'] = self.admin_key
+            headers["apikey"] = self.admin_key
         response = await self.session.request(
             method, url, headers=headers, **kw
         )
@@ -84,13 +89,13 @@ class Kong:
     async def apply_json(self, config):
         config = copy.deepcopy(config)
         if not isinstance(config, dict):
-            raise KongError('Expected a dict got %s' % type(config).__name__)
+            raise KongError("Expected a dict got %s" % type(config).__name__)
         result = {}
         for name, data in config.items():
             if not isinstance(data, list):
                 data = [data]
             o = getattr(self, name)
             if not o:
-                raise KongError('Kong object %s not available' % name)
+                raise KongError("Kong object %s not available" % name)
             result[name] = await o.apply_json(data)
         return result
