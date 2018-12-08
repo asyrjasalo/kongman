@@ -50,12 +50,12 @@ mypy: ## Run mypy for static type checking
 .PHONY: dc
 dc: ## Start docker-compose env on background
 	git submodule update --init --recursive
-	docker-compose --file testenv/docker-compose.yml up --detach
+	docker-compose --file kongpose/docker-compose.yml up --detach
 
 .PHONY: dc_rm
 dc_rm: ## Stop and remove docker-compose env and volumes
 	git submodule update --init --recursive
-	docker-compose --file testenv/docker-compose.yml down --volumes
+	docker-compose --file kongpose/docker-compose.yml down --volumes
 
 .PHONY: test
 test: _venv_dev ## Run tests (installs requirements first)

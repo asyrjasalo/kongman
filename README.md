@@ -90,7 +90,7 @@ async with Kong() as cli:
 Tests assume you have Kong Admin API running at [http://localhost:8001](http://localhost:8001).
 
 If you have `docker-compose` available, you can run `make dc` to get
-[testenv/](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) as a git submodule and start it on background for tests.
+[kongpose/](https://github.com/asyrjasalo/kongpose/blob/master/docker-compose.yml) as a git submodule and start it on background for tests.
 Use `make dc_rm` to stop and remove the stack, including the volumes for DBs.
 
 Run `make` as a shortcut for three other rules:
