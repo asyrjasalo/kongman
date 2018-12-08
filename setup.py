@@ -5,6 +5,9 @@ import re
 from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
 
+from kong import __version__
+
+
 CLASSIFIERS = """
 Development Status :: 3 - Alpha
 Intended Audience :: Developers
@@ -19,8 +22,6 @@ Topic :: Utilities
 """.strip().splitlines()
 
 CURDIR = dirname(abspath(__file__))
-with open(join(CURDIR, "kong", "__init__.py"), encoding="utf-8") as f:
-    VERSION = re.search("__version__ = '(.*)'", f.read()).group(1)
 with open(join(CURDIR, "README.md"), encoding="utf-8") as f:
     LONG_DESCRIPTION = f.read()
 with open(join(CURDIR, "requirements.txt"), encoding="utf-8") as f:
@@ -28,7 +29,7 @@ with open(join(CURDIR, "requirements.txt"), encoding="utf-8") as f:
 
 setup(
     name="kong-incubator",
-    version=VERSION,
+    version=__version__,
     description="Declare and manage Kong resources with yaml",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
