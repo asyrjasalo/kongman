@@ -90,6 +90,11 @@ install_test: ## Install the latest test.pypi.org release
 install_pypi: ## Install the latest PyPI release
 	pip install --force-reinstall --upgrade ${PACKAGE_NAME}
 
+.PHONY: uninstall
+uninstall: ## Uninstall the package, regardless of its origin
+	pip uninstall --yes ${PACKAGE_NAME}
+
+.PHONY: publish_test
 publish_test: ## Publish dists to test.pypi.org
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
