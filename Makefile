@@ -1,90 +1,109 @@
 .DEFAULT_GOAL := all
 
-# At least OS X does not have this in default PATH, for `pip install --user`
+
+# OS X does not have `pip install --user` target in default PATH
 PATH := ${HOME}/.local/bin:${PATH}
 
-# virtualenv related
+# virtualenvs handled by rules below
 VENV_DEV_PATH := .venvs/dev
 VENV_RELEASE_PATH := .venvs/release
 
-# run tests for docker-compose env
-KONG_ADMIN_URL := http://localhost:8001
-KONG_ADMIN_KEY :=
+# lazily: package to download from PyPIs
+PACKAGE_NAME = $(shell python setup.py --name)
 
+# lazily: checks before building and after installing
+SANITY_CHECK = kong-incubator --version
+SMOKE_CHECK = kong-incubator --help
+
+
+.PHONY: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+.PHONY: _venv_dev
 _venv_dev:
 	virtualenv --version >/dev/null || pip install --user virtualenv
 	test -d "${VENV_DEV_PATH}" || virtualenv --no-site-packages "${VENV_DEV_PATH}"
 	. "${VENV_DEV_PATH}/bin/activate" && \
 	pip install --quiet -r requirements-dev.txt
 
+.PHONY: _venv_release
 _venv_release:
 	virtualenv --version >/dev/null || pip install --user virtualenv
 	virtualenv --clear --no-site-packages "${VENV_RELEASE_PATH}"
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel
 
+.PHONY: flake8
 flake8: ## Run flake8 for static code analysis
-	. "${VENV_RELEASE_PATH}/bin/activate" && \
-	flake8 kong/
+	. "${VENV_DEV_PATH}/bin/activate" && flake8
 
+.PHONY: mypy
 mypy: ## Run mypy for static type checking
-	. "${VENV_RELEASE_PATH}/bin/activate" && \
-	mypy kong/
+	. "${VENV_DEV_PATH}/bin/activate" && mypy .
 
+.PHONY: dc
 dc: ## Start docker-compose env on background
 	git submodule update --init --recursive
-	docker-compose --file testkong/docker-compose.yml up --detach
+	docker-compose --file testenv/docker-compose.yml up --detach
 
+.PHONY: dc_rm
 dc_rm: ## Stop and remove docker-compose env and volumes
 	git submodule update --init --recursive
-	docker-compose --file testkong/docker-compose.yml down --volumes
+	docker-compose --file testenv/docker-compose.yml down --volumes
 
-test: _venv_dev ## Run tests. Installs requirements first.
+.PHONY: test
+test: _venv_dev ## Run tests (installs requirements first)
 	. "${VENV_DEV_PATH}/bin/activate" && \
 	pytest --cov --spec --instafail --diff-type=auto
 
-retest: ## Run failed tests only. If none, run all.
+.PHONY: retest
+retest: ## Run failed tests only, if none, run all
 	. "${VENV_DEV_PATH}/bin/activate" && \
 	pytest --cov --spec --instafail --diff-type=auto \
 		--last-failed --last-failed-no-failures all
 
+.PHONY: build
 build: _venv_release ## Build source dist and wheel
 	. "${VENV_RELEASE_PATH}/bin/activate" && pip install .
 	##########################################
 	### Sanity check before building dists ###
-	. "${VENV_RELEASE_PATH}/bin/activate" && kong-incubator --version && \
+	. "${VENV_RELEASE_PATH}/bin/activate" && ${SANITY_CHECK} && \
 	python setup.py clean --all bdist_wheel sdist && \
 	pip install --upgrade twine
 
+.PHONY: install
 install: ## Install package from source tree, as --editable
 	pip install --editable .
 	###############################################
 	### Smoke check after installed from source ###
-	kong-incubator --help
+	${SMOKE_CHECK}
 
-install_testpypi: ## Install the latest TestPyPI release
+.PHONY: install_test
+install_test: ## Install the latest test.pypi.org release
 	pip install --force-reinstall \
 		--index-url https://test.pypi.org/simple/ \
-		--extra-index-url https://pypi.org/simple kong-incubator
+		--extra-index-url https://pypi.org/simple ${PACKAGE_NAME}
 
+.PHONY: install_pypi
 install_pypi: ## Install the latest PyPI release
-	pip install --force-reinstall --upgrade kong-incubator
+	pip install --force-reinstall --upgrade ${PACKAGE_NAME}
 
-publish_testpypi: ## Publish dists to TestPyPI
+publish_test: ## Publish dists to test.pypi.org
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
+.PHONY: publish_pypi
 publish_pypi: ## Publish dists to PyPI
 	. "${VENV_RELEASE_PATH}/bin/activate" && twine upload dist/*
 
+.PHONY: all
 all: test build install ## Run test, build and install
 
+.PHONY: clean
 clean: ## Remove .venvs, builds, dists, and caches
-	rm -rf dist build *.egg-info kong/__pycache__ tests/__pycache__
+	rm -rf dist build *.egg-info **/__pycache__
 	rm -rf .venvs
 	rm -rf .pytest_cache .mypy_cache
 	rm -f .coverage
