@@ -13,6 +13,7 @@ kong-incubator --yaml examples/kadmin.yaml --output None
 admin_key=$(kong-incubator --key-auth root --output key)
 echo "Send header 'apikey:$admin_key' to authenticate http://localhost:8000/kadmin"
 
+
 ### example to create a new service via the authenticated Admin API
 KONG_ADMIN_URL=http://localhost:8000/kadmin kong-incubator \
   --admin-key=$admin_key \
