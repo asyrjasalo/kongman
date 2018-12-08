@@ -5,7 +5,7 @@ from kong.client import KongError
 
 async def test_consumer(cli, consumer):
     assert consumer.username == 'test-xx'
-    assert consumer.get('custom_id', '') == None
+    assert consumer.get('custom_id', '') is None
 
 
 async def test_jwt_create(cli, consumer):

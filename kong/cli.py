@@ -54,6 +54,7 @@ def kong(ctx, admin_url, admin_key, key_auth, yaml, output, version):
 def _run(coro):
     return asyncio.get_event_loop().run_until_complete(coro)
 
+
 def _output(response, query):
     if isinstance(query, bool):
         click.echo(json.dumps(response, indent=4))
@@ -63,6 +64,7 @@ def _output(response, query):
         else:
             click.echo(json.dumps(response[query], indent=4))
 
+
 async def _yml(ctx, yaml, output, admin_url, admin_key):
     async with Kong(admin_url, admin_key=admin_key) as cli:
         try:
@@ -71,6 +73,7 @@ async def _yml(ctx, yaml, output, admin_url, admin_key):
                 _output(result, output)
         except KongError as exc:
             raise click.ClickException(str(exc))
+
 
 async def _auth_key(ctx, consumer, output, admin_url, admin_key):
     async with Kong(admin_url, admin_key=admin_key) as cli:
