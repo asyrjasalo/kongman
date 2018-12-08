@@ -27,19 +27,20 @@ with open(join(CURDIR, 'requirements.txt'), encoding="utf-8") as f:
     REQUIREMENTS = f.read()
 
 setup(
-    name             = 'kong-incubator',
-    version          = VERSION,
-    description      = 'Declare the Kong you want in yaml (fork of aio-kong)',
-    long_description = LONG_DESCRIPTION,
-    long_description_content_type = 'text/markdown',
-    author           = 'Anssi Syrjäsalo (aio-kong by Luca Sbardella)',
-    author_email     = 'anssi.syrjasalo@gmail.com',
-    url              = 'https://github.com/asyrjasalo/kongman',
-    license          = 'BSD',
-    keywords         = 'kong config setup cli yaml async aiohttp',
-    classifiers      = CLASSIFIERS,
-    install_requires = REQUIREMENTS,
-    packages         = find_packages(exclude=['tests', 'tests.*']),
+    name='kong-incubator',
+    version=VERSION,
+    description='Declare and manage Kong resources with yaml',
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/markdown',
+    author='Anssi Syrjäsalo (aio-kong by Luca Sbardella)',
+    author_email='anssi.syrjasalo@gmail.com',
+    url='https://github.com/asyrjasalo/kongman',
+    license='BSD License',
+    platforms='any',
+    keywords='kong admin yaml configuration async cli',
+    classifiers=CLASSIFIERS,
+    install_requires=REQUIREMENTS,
+    packages=find_packages(exclude=['tests', 'tests.*']),
     entry_points={
         "console_scripts": [
             "kong-incubator = kong.cli:main"
