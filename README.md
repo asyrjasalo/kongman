@@ -108,10 +108,10 @@ installs build tools and builds source and wheel dists.
 
 Run `make pur` to [update requirements(-dev)](https://github.com/alanhamlett/pip-update-requirements) regarding the locked versions.
 
-Run rules for [black](https://black.readthedocs.io/en/stable/),
-[flake8](http://flake8.pycqa.org/en/latest/) and
-[mypy](http://mypy-lang.org/)
-for the respective tools. Settings for the latter two, as well as `pytest`,
+Moreover, run `make {{toolname}}` for
+[black](https://black.readthedocs.io/en/stable/),
+[flake8](http://flake8.pycqa.org/en/latest/) or
+[mypy](http://mypy-lang.org/). Settings for the latter two, as well as `pytest`,
 are in `setup.cfg` until they get support for `pyproject.toml` finished.
 
 Run `make clean` to remove `.venvs`, builds, dists and caches.
