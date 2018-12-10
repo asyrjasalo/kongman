@@ -35,6 +35,12 @@ _venv_release:
 	. "${VENV_RELEASE_PATH}/bin/activate" && \
 	pip install --upgrade pip setuptools wheel
 
+.PHONY: pur
+pur: _venv_dev ## Update and lock versions in requirements(-dev)
+	. "${VENV_DEV_PATH}/bin/activate" && \
+	pur --force -r requirements-dev.txt --pre black && \
+	pur --force -r requirements.txt
+
 .PHONY: black
 black: ## Reformat source code in-place
 	. "${VENV_DEV_PATH}/bin/activate" && black .

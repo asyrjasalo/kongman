@@ -1,12 +1,14 @@
 -r requirements.txt
 
-pytest
-pytest-aiohttp
-pytest-cov
-pytest-clarity
-pytest-instafail
-pytest-spec
+pur==5.2.1
 
-black
-flake8
-mypy
+black==18.9b0
+flake8==3.6.0
+mypy==0.650
+
+pytest==4.0.1
+pytest-aiohttp==0.3.0
+pytest-instafail==0.4.0
+pytest-clarity
+pytest-cov==2.6.0
+pytest-spec==1.1.0
