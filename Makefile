@@ -38,8 +38,7 @@ _venv_release:
 .PHONY: pur
 pur: _venv_dev ## Update and lock versions in requirements(-dev)
 	. "${VENV_DEV_PATH}/bin/activate" && \
-	pur --force -r requirements-dev.txt --pre black && \
-	pur --force -r requirements.txt
+	pur --force --no-recursive -r requirements-dev.txt --pre black
 
 .PHONY: black
 black: ## Reformat source code in-place
