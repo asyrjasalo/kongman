@@ -106,7 +106,7 @@ installs build tools and builds source and wheel dists.
 
 - `make install` to install package from source tree.
 
-Run `make pur` to [update and lock versions](https://github.com/alanhamlett/pip-update-requirements) in `requirements(-dev).txt`.
+Run `make pur` to [update requirements](https://github.com/alanhamlett/pip-update-requirements) and lock dev versions.
 
 Run rules for [black](https://black.readthedocs.io/en/stable/),
 [flake8](http://flake8.pycqa.org/en/latest/) and

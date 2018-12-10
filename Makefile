@@ -36,9 +36,9 @@ _venv_release:
 	pip install --upgrade pip setuptools wheel
 
 .PHONY: pur
-pur: _venv_dev ## Update and lock versions in requirements(-dev)
+pur: _venv_dev ## Update requirements and lock dev versions
 	. "${VENV_DEV_PATH}/bin/activate" && \
-	pur --force --no-recursive -r requirements-dev.txt --pre black
+	pur -r requirements-dev.txt --pre black
 
 .PHONY: black
 black: ## Reformat source code in-place
