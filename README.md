@@ -11,9 +11,11 @@ Some changes backwards incompatible with [aio-kong](https://github.com/lendingbl
 
   - Patch tests (SNI, consumer) to pass on Kong 0.14.x and 1.0.0rc2
   - Add [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
-  - Add `make` rules for `flake8`, `mypy`, `test`, `build`, `publish_pypi`, ...
+  - Add `make` rules `test`, `retest`, `build`, `install`, `publish_pypi`, ...
   - Add creating `.venvs/` for dev and release, handled by `make` rules
-  - Add (opinionated) `pytest` plugins, to help myself
+  - Add pytest plugins: `instafail`, `clarify` and `spec`, tests run in dev venv
+  - Add tools in dev venv: `pur` for reqs and `black`, `flake8`, `mypy` for code
+  - Add tools in release venv: `wheel` for bdist and `twine` for publish PyPis
   - Add `--output` to limit output to a JSON property (for scripts), or have `None`
   - Add `examples/` for Kong Admin API loopback and example endpoint via it
   - Add `KONG_ADMIN_URL`, defaults to `http://localhost:8001`
@@ -23,7 +25,7 @@ Some changes backwards incompatible with [aio-kong](https://github.com/lendingbl
   - Remove `--ip` **BWIC**
 
 TODO:
-  - Add compatibility for <0.14 Kongs, PR the >=0.14 parts back to aio-kong.
+  - Add compatibility for <0.14 Kongs, PR the >=0.14 parts back to aio-kong
 
 
 ## Installation
@@ -103,6 +105,14 @@ installation of requirements. Both clean up the Kong resources they create.
 installs build tools and builds source and wheel dists.
 
 - `make install` to install package from source tree.
+
+Run `make pur` to [update and lock versions](https://github.com/alanhamlett/pip-update-requirements) in `requirements(-dev).txt`.
+
+Run rules for [black](https://black.readthedocs.io/en/stable/),
+[flake8](http://flake8.pycqa.org/en/latest/) and
+[mypy](http://mypy-lang.org/)
+for the respective tools. Settings for the latter two, as well as `pytest`,
+are in `setup.cfg` until they get support for `pyproject.toml` finished.
 
 Run `make clean` to remove `.venvs`, builds, dists and caches.
 
