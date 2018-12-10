@@ -13,7 +13,7 @@ Some changes backwards incompatible with [aio-kong](https://github.com/lendingbl
   - Add [docker-compose stack](https://github.com/asyrjasalo/kongpose) for tests
   - Add `make` rules `test`, `retest`, `build`, `install`, `publish_pypi`, ...
   - Add creating `.venvs/` for dev and release, handled by `make` rules
-  - Add pytest plugins: `instafail`, `clarify` and `spec`, tests run in dev venv
+  - Add pytest plugins: `clarity`, `instafail` and `spec`, tests run in dev venv
   - Add tools in dev venv: `pur` for reqs and `black`, `flake8`, `mypy` for code
   - Add tools in release venv: `wheel` for bdist and `twine` for publish PyPis
   - Add `--output` to limit output to a JSON property (for scripts), or have `None`
@@ -106,7 +106,7 @@ installs build tools and builds source and wheel dists.
 
 - `make install` to install package from source tree.
 
-Run `make pur` to [update requirements](https://github.com/alanhamlett/pip-update-requirements) and lock dev versions.
+Run `make pur` to [update requirements(-dev)](https://github.com/alanhamlett/pip-update-requirements) regarding the locked versions.
 
 Run rules for [black](https://black.readthedocs.io/en/stable/),
 [flake8](http://flake8.pycqa.org/en/latest/) and
