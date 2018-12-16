@@ -2,12 +2,12 @@
 __pycache__
 
 *.egg-info
+.venvs/
 dist/
 build/
 
 .coverage
 .pytest_cache
 .mypy_cache
-.venvs
 
 *.private
