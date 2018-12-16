@@ -60,7 +60,7 @@ To delete a resource from Kong, add `ensure: absent` for it in YAML.
 
 For list of all options, run without any:
 
-```shell
+```
 $ kong-incubator
 
 Usage: kong-incubator [OPTIONS]
@@ -150,9 +150,9 @@ as they do not yet support `pyproject.toml`, like `black`.
 
 Run `make clean` to remove `.venvs/`, `build/`, `dist/` and source tree caches.
 
-See `make help` for all options:
+See `make help` for all rules:
 
-```shell
+```
 all                            Run test, build and install (default goal)
 black                          Reformat source code in-place
 build                          Build source dist and wheel
