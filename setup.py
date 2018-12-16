@@ -8,12 +8,11 @@ from kong import __version__
 
 
 classifiers = """
-Development Status :: 3 - Alpha
+Development Status :: 4 - Beta
 Intended Audience :: Developers
 Intended Audience :: System Administrators
 License :: OSI Approved :: BSD License
 Operating System :: OS Independent
-Programming Language :: Python
 Programming Language :: Python :: 3 :: Only
 Programming Language :: Python :: 3.6
 Programming Language :: Python :: 3.7
@@ -32,13 +31,13 @@ setup(
     description="Declare and manage Kong resources with yaml",
     long_description=readme,
     long_description_content_type="text/markdown",
-    author="Anssi Syrjäsalo (aio-kong by Luca Sbardella)",
+    author="Anssi Syrjäsalo / aio-kong by Luca Sbardella",
     author_email="anssi.syrjasalo@gmail.com",
     url="https://github.com/asyrjasalo/kongman",
-    platforms="any",
+    platforms="console",
     keywords="kong admin yaml cli async",
     classifiers=classifiers,
     install_requires=requirements,
-    packages=find_packages(exclude=["tests", "tests.*"]),
-    entry_points={"console_scripts": ["kong-incubator = kong.cli:main"]},
+    packages=find_packages(exclude=("tests", "tests.*")),
+    entry_points={"console_scripts": ("kong-incubator = kong.cli:main")},
 )
