@@ -65,15 +65,13 @@ dc_rm: ## Stop and remove docker-compose env and volumes
 	docker-compose --file kongpose/docker-compose.yml down --volumes
 
 .PHONY: test
-test: _venv_dev ## Run tests (installs requirements first)
-	. "${VENV_DEV_PATH}/bin/activate" && \
-	pytest --cov --spec --instafail --diff-type=auto
+test: _venv_dev ## Run tests, installs requirements(-dev) first
+	. "${VENV_DEV_PATH}/bin/activate" && pytest
 
 .PHONY: retest
 retest: ## Run failed tests only, if none, run all
 	. "${VENV_DEV_PATH}/bin/activate" && \
-	pytest --cov --spec --instafail --diff-type=auto \
-		--last-failed --last-failed-no-failures all
+	pytest --last-failed --last-failed-no-failures all
 
 .PHONY: build
 build: _venv_release ## Build source dist and wheel
