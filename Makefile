@@ -1,20 +1,22 @@
-.DEFAULT_GOAL := all
-
-
-# OS X does not have `pip install --user` target in default PATH
+# get OS X to have `pip install --user` target in $PATH
 PATH := ${HOME}/.local/bin:${PATH}
 
-# virtualenvs handled by rules below
+# virtualenvs(' paths) handled by make rules
 VENV_DEV_PATH := .venvs/dev
 VENV_RELEASE_PATH := .venvs/release
 
-# lazily: package to download from PyPIs
+# evaluate lazily: package name when installing from PyPIs
 PACKAGE_NAME = $(shell python setup.py --name)
 
-# lazily: checks before building and after installing
+# evaluate lazily: checks before build and after installed
 SANITY_CHECK = kong-incubator --version
 SMOKE_CHECK = kong-incubator --help
 
+
+.DEFAULT_GOAL := all
+
+.PHONY: all
+all: test build install ## Run test, build and install (default goal)
 
 .PHONY: help
 help:
@@ -111,9 +113,6 @@ publish_test: ## Publish dists to test.pypi.org
 .PHONY: publish_pypi
 publish_pypi: ## Publish dists to PyPI
 	. "${VENV_RELEASE_PATH}/bin/activate" && twine upload dist/*
-
-.PHONY: all
-all: test build install ## Run test, build and install
 
 .PHONY: clean
 clean: ## Remove .venvs, builds, dists, and caches
